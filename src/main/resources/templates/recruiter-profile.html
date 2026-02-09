@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Profile - Job Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/recruiter.css}">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+</head>
+<body>
+
+    <!-- Profile Form -->
+    <div class="profile-page">
+        <div class="profile-form">
+            <div class="profile-title">
+                <div class="icon-circle"><i class="fas fa-user-tie"></i></div>
+                <h1>Recruiter</h1>
+                <p>Set up your Profile</p>
+            </div>
+
+            <form th:action="@{/recruiter/profile}" th:object="${recruiterProfile}" method="post" enctype="multipart/form-data">
+                <div class="form-section">
+                    <div class="section-header">
+                        <span class="section-icon"><i class="fas fa-id-badge"></i></span>
+                        <h4 class="section-label">Name</h4>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <div class="input-group">
+                                <i class="input-icon fas fa-user"></i>
+                                <input type="text" th:field="*{firstName}" placeholder="First name" class="form-control-hero">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group">
+                                <i class="input-icon fas fa-user"></i>
+                                <input type="text" th:field="*{lastName}" placeholder="Last name" class="form-control-hero">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row-3" style="margin-top:0.75rem;">
+                        <div>
+                            <input type="text" th:field="*{city}" placeholder="City" class="form-control-hero">
+                        </div>
+                        <div>
+                            <input type="text" th:field="*{state}" placeholder="State" class="form-control-hero">
+                        </div>
+                        <div>
+                            <input type="text" th:field="*{country}" placeholder="Country" class="form-control-hero">
+                        </div>
+                    </div>
+
+                    <div style="margin-top:0.75rem;">
+                        <input type="text" th:field="*{company}" placeholder="Company" class="form-control-hero">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-header">
+                        <span class="section-icon"><i class="fas fa-camera"></i></span>
+                        <h4 class="section-label">Profile Photo</h4>
+                    </div>
+
+                    <div style="margin-top:0.75rem;">
+                        <!-- Profile Photo Upload -->
+                        <div class="file-upload-wrapper">
+                            <input type="file" name="profilePhotoFile" class="file-input-hidden" accept="image/*" id="recruiterProfilePhotoInput">
+                            <label for="recruiterProfilePhotoInput" class="file-upload-card">
+                                <div th:if="${recruiterProfile.profilePhoto != null and !recruiterProfile.profilePhoto.isEmpty()}" class="uploaded-photo">
+                                    <img th:src="@{'/uploads/photos/' + ${recruiterProfile.profilePhoto}}" alt="Profile Photo" class="uploaded-image">
+                                    <div class="upload-overlay">
+                                        <i class="fas fa-camera"></i>
+                                        <span>Click to change</span>
+                                    </div>
+                                </div>
+                                <div th:unless="${recruiterProfile.profilePhoto != null and !recruiterProfile.profilePhoto.isEmpty()}" class="upload-placeholder">
+                                    <i class="fas fa-image"></i>
+                                    <span class="upload-text">Profile Photo</span>
+                                    <span class="upload-hint">Click to upload</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save"><i class="fas fa-save"></i>&nbsp;Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    // File upload preview for recruiter profile photo
+    document.getElementById('recruiterProfilePhotoInput')?.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const label = document.querySelector('label[for="recruiterProfilePhotoInput"]');
+                if (label) {
+                    label.innerHTML = `
+                        <div class="uploaded-photo">
+                            <img src="${event.target.result}" alt="Profile Photo" class="uploaded-image">
+                            <div class="upload-overlay">
+                                <i class="fas fa-camera"></i>
+                                <span>Click to change</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+</html>

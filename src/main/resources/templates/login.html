@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - JobSeek</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/auth.css">
+    <!-- styles moved to /css/auth.css -->
+</head>
+<body>
+<div class="split">
+     <div class="left">
+        <img class="logo-join-us" src="/img/LoginJoinUs.png" alt="" />
+    </div>
+    <div class="right">
+        <div class="card">
+            <div class="logo">
+                <a th:href="@{/}" title="Home">
+                    <img src="/img/Logo.png" class="logo-circle" alt="JobSeek Logo">
+                </a>
+                <div>
+                    <div class="logo-title">JobSeek</div>
+                    <div class="muted-small">Sign in to your account</div>
+                </div>
+            </div>
+
+            <form th:action="@{/login}" method="post">
+                 <label class="form-label required" for="email">Email Address</label>
+                <input class="form-control" id="username" name="username" placeholder="lengsaroth9@gmail.com" required />
+                <label class="form-label required" for="password">Password</label>
+                <div class="password-wrapper">
+                    <input class="form-control" type="password" id="password" name="password" placeholder="@123456" required />
+                    <button type="button" class="password-toggle" aria-pressed="false" title="Show password">
+                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                        <i class="fa-solid fa-eye-slash" aria-hidden="true" style="display:none"></i>
+                    </button>
+                </div>
+                <button class="btn" type="submit">Sign In</button>
+            </form>
+
+            <p class="auth-small">Don't have an account? <a class="auth-link" th:href="@{/register}">Sign Up</a></p>
+        </div>
+    </div>
+</div>
+<script src="/js/auth.js"></script>
+</body>
+</html>

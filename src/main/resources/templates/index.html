@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobSeek - We Work To Ensure Your Career Success</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/slider.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="home-page-new">
+    <!-- Navbar -->
+    <nav class="navbar-modern">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="brand-logo">
+                    <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo" class="brand-logo-img">
+                </a>
+                <div class="nav-links">
+                    <a href="#services">Services</a>
+                    <a href="#jobs">Jobs</a>
+                    <a href="#about">About</a>
+                </div>
+                <div class="nav-buttons">
+                    <a href="/login" class="btn-nav btn-login">Sign In</a>
+                    <a href="/register" class="btn-nav btn-signup">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Slider Section -->
+    <section class="hero-slider">
+        <div class="slider-wrapper">
+            <div class="slide active">
+                <img src="https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg" alt="Team Work">
+                <div class="slide-overlay">
+                    <div class="slide-content">
+                        <h1>Prosper in this volatile market funding.</h1>
+                        <p>We place you at the centre of international networks to advance your strategic interests.</p>
+                        <a href="/register" class="cta-button">Our Team</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg" alt="Business Meeting">
+                <div class="slide-overlay">
+                    <div class="slide-content">
+                        <h1>Modern Web Development That Converts</h1>
+                        <p>Transform your ideas into powerful websites that attract clients and grow your business revenue.</p>
+                        <a href="/login" class="cta-button">View Portfolio</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="https://www.calendar.com/wp-content/uploads/2022/02/How-to-Catch-up-at-Work.jpg.webp" alt="Professional Work">
+                <div class="slide-overlay">
+                    <div class="slide-content">
+                        <h1>Scale Your Business With Custom Web Solutions</h1>
+                        <p>From responsive websites to e-commerce platforms, we create the perfect digital solution for your business needs.</p>
+                        <a href="/register" class="cta-button">Our Services</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-dots">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <h2 class="section-title">For Job Seekers Services</h2>
+            <p class="section-subtitle">Explore job opportunities</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Freelancer</h3>
+                    <p>Find freelance opportunities and work on your own terms with flexible projects</p>
+                    <a href="/register" class="service-link">Learn More →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Business Owner</h3>
+                    <p>Connect with top talent to grow your business and scale your operations</p>
+                    <a href="/register" class="service-link">Learn More →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Job Seeker</h3>
+                    <p>Discover your dream job from thousands of opportunities tailored for you</p>
+                    <a href="/login" class="service-link">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Join Us Section -->
+    <section class="why-join-section">
+        <div class="container">
+            <h2 class="section-title">Why Join Us?</h2>
+            <p class="section-subtitle">Discover the benefits of joining our platform</p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>All-in-One Solution</h3>
+                    <p>Find jobs, freelance gigs, or top talent in one seamless platform</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Secure & Trusted</h3>
+                    <p>End-to-end encryption and verified users ensure safe communication</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Personalized Dashboard</h3>
+                    <p>Track your applications and manage your career journey efficiently</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Verified Reviews</h3>
+                    <p>Build trust with authentic ratings and reviews for informed decisions</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Fast Hiring Process</h3>
+                    <p>From posting jobs to hiring, we streamline the process to save time</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated team is always ready to help you succeed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stats-left">
+                    <h2 class="section-title">opportunitiesCurated</h2>
+                </div>
+
+                <div class="stats-divider" aria-hidden="true"></div>
+
+                <div class="stats-center">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="1000">0</div>
+                        <div class="stat-label">Job Openings</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="500">0</div>
+                        <div class="stat-label">Top Employers</div>
+                    </div>
+                </div>
+
+                <div class="stat-image-wrap">
+                    <div class="stat-image-card">
+                        <img src="https://remitpay.co.in/assets/img/others/fact_img.png" alt="People" class="stat-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Jobs Section -->
+    <section class="jobs-section" id="jobs">
+        <div class="container">
+            <h2 class="section-title">Most Popular Jobs</h2>
+            <p class="section-subtitle">Discover job opportunities with top companies</p>
+            <div class="jobs-grid">
+                <div class="job-card">
+                    <div class="job-header">
+                        <img src="https://metro.org/sites/default/files/inline-images/DSC_6289.JPG" alt="Company">
+                        <div class="job-meta">
+                            <span class="job-date">2025-02-21</span>
+                        </div>
+                    </div>
+                    <div class="job-body">
+                        <div class="job-category">Software Development</div>
+                        <h3>Full-Stack Developer</h3>
+                        <p class="job-company">Tech Innovators Inc.</p>
+                        <p>A leading software company specializing in AI-driven applications</p>
+                        <a href="/login" class="job-link">LEARN MORE</a>
+                    </div>
+                </div>
+                <div class="job-card">
+                    <div class="job-header">
+                        <img src="https://images.agoramedia.com/wte3.0/gcms/job-hunting-while-pregnant-2021-722x406.jpg" alt="Company">
+                        <div class="job-meta">
+                            <span class="job-date">2025-02-20</span>
+                        </div>
+                    </div>
+                    <div class="job-body">
+                        <div class="job-category">Cloud Computing</div>
+                        <h3>Cloud Engineer</h3>
+                        <p class="job-company">Cloud Solutions Ltd.</p>
+                        <p>Providing top-tier cloud solutions for enterprises worldwide</p>
+                        <a href="/login" class="job-link">LEARN MORE</a>
+                    </div>
+                </div>
+                <div class="job-card">
+                    <div class="job-header">
+                        <img src="https://www.sydney.edu.au/content/dam/people/students/icpu-students-in-a-brainstorming-session.jpg" alt="Company">
+                        <div class="job-meta">
+                            <span class="job-date">2025-02-19</span>
+                        </div>
+                    </div>
+                    <div class="job-body">
+                        <div class="job-category">Cybersecurity</div>
+                        <h3>Security Analyst</h3>
+                        <p class="job-company">CyberSecure Inc.</p>
+                        <p>Enhancing cybersecurity for businesses with innovative security solutions</p>
+                        <a href="/login" class="job-link">LEARN MORE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">Clients Feedback</h2>
+            <p class="section-subtitle">Discover the benefits of joining our platform</p>
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"JobSeek has transformed the way I find freelancers for my projects. The user-friendly interface made it easy to post my job requirements, and I was amazed at the quality of candidates who applied."</p>
+                    <div class="testimonial-author">
+                        <img src="https://www.job-seek.works/assets/dara-CN0GJ6VE.jpg" alt="Author">
+                        <div>
+                            <h4>Kong Sisovandara</h4>
+                            <p>Lead Frontend Developer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"The variety of jobs available and the straightforward application process make it easy for me to showcase my skills. I landed a fantastic project through easyJobs, and the support team was incredibly helpful!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://www.job-seek.works/assets/theara-Cz4rQCKI.jpg" alt="Author">
+                        <div>
+                            <h4>Chim Theara</h4>
+                            <p>Lead Designer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"The site is well-designed, making it easy to browse freelancers based on their skills and ratings. I was able to find a web developer who understood my vision perfectly. This platform has truly helped me grow!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://www.job-seek.works/assets/sanom-DLFQJSsa.jpg" alt="Author">
+                        <div>
+                            <h4>Rin Sanom</h4>
+                            <p>Web Developer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-modern" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>QUICK LINKS</h3>
+                    <ul>
+                        <li><a href="/login">Find Jobs</a></li>
+                        <li><a href="/register">Post a Job</a></li>
+                        <li><a href="/login">Dashboard</a></li>
+                        <li><a href="/register">Join as Business</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>SUPPORT & LEGAL</h3>
+                    <ul>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>ABOUT US</h3>
+                    <p>easyJobs is created for Job Matching Service Specialized in IT. We are dedicated to connecting talent with opportunities.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 easyJobs.com Inc. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/slider.js}"></script>
+    <script th:src="@{/js/stats.js}"></script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+/* Auth-specific styles (login/register)
+   Cleaned and reorganized: variables, layout, card, form, utilities, responsive */
+
+:root {
+    --primary: #1f3f8a;
+    --primary-dark: #0a2473;
+    --accent: #253b8b;
+    --muted: #697386;
+    --bg: #f7f9fb;
+    --card-shadow: 0 6px 24px rgba(16, 24, 40, 0.08);
+    --card-shadow-lg: 0 12px 30px rgba(16, 24, 40, 0.08);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Layout: split screen */
+.split,
+.auth-split {
+    display: flex;
+    min-height: 100vh
+}
+
+.left,
+.auth-side-left {
+    flex: 1;
+    background: #0a2473;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px
+}
+
+.right,
+.auth-side-right {
+
+    /* Make image logo clickable and nicely fit */
+    .logo a {
+        display: inline-block;
+    }
+
+    .logo a img.logo-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        cursor: pointer;
+        transition: transform 160ms ease;
+    }
+
+    .logo a img.logo-circle:hover {
+        transform: scale(1.06);
+    }
+
+    flex: 1;
+    min-width: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+/* Card */
+.card,
+.auth-card {
+    width: 420px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: var(--card-shadow);
+}
+
+.auth-card {
+    width: 460px;
+    box-shadow: var(--card-shadow-lg)
+}
+
+/* Logo / header */
+.logo,
+.auth-card .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px
+}
+
+.logo-circle,
+.auth-card .logo-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700
+}
+
+.logo-title,
+.auth-card h2 {
+    font-weight: 700;
+    color: #12263b
+}
+
+.muted-small,
+.auth-card .muted {
+    color: var(--muted);
+    font-size: 14px
+}
+
+/* Forms */
+form {
+    width: 100%;
+}
+
+.form-control,
+.auth-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #e6e9ef;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    background: #fff;
+}
+
+.form-control:focus,
+.auth-input:focus {
+    outline: 0;
+    outline-offset: 0;
+    border-color: var(--primary);
+    box-shadow: none;
+}
+
+.form-row,
+.auth-row {
+    display: flex;
+    gap: 12px
+}
+
+.auth-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #e6e9ef;
+    border-radius: 8px;
+    background: #fff
+}
+
+.btn,
+.auth-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.auth-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed
+}
+
+/* Primary button hover: use yellow accent with navy text */
+.btn:hover,
+.auth-btn:hover {
+    background: #eab308;
+    color: white;
+    transform: translateY(-1px);
+}
+.btn,
+.auth-btn {
+    transition: background-color 160ms ease, color 160ms ease, transform 120ms ease;
+}
+
+.error {
+    color: #d23f44;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+/* Field-level error node used by auth.js */
+.field-error {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* Stabilize control heights to avoid width shift when errors/box-shadow appear */
+.form-control {
+    height: 44px;
+    line-height: 20px;
+}
+
+.custom-select-button,
+.select-wrapper .select-custom {
+    min-height: 44px;
+    box-sizing: border-box;
+}
+
+/* Utilities */
+.hero-title {
+    font-size: 48px;
+    text-align: center
+}
+
+.logo-join-us {
+    max-width: 360px;
+    margin-top: 20px
+}
+
+.logo-join-us {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    animation:
+        fadeInUp 500ms ease forwards,
+        floatSoft 5s ease-in-out infinite;
+    animation-delay: 0s, 500ms;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes floatSoft {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-14px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logo-join-us {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+
+.logo-small {
+    font-weight: 700
+}
+
+/* Small footer/link */
+.auth-small {
+    text-align: center;
+    margin-top: 12px;
+    color: var(--muted)
+}
+
+.auth-small a {
+    color: var(--primary);
+    text-decoration: none
+}
+
+/* Link underline behaviour for auth area */
+.auth-link,
+.auth-small a {
+    text-decoration: none;
+    transition: color 180ms ease-in-out, text-decoration 180ms ease-in-out;
+}
+
+.auth-link:hover,
+.auth-small a:hover {
+    text-decoration: none;
+    color: #eab308;
+}
+
+/* Responsive tweaks */
+@media (max-width:900px) {
+
+    .split,
+    .auth-split {
+        flex-direction: column;
+        min-height: 100vh;
+        height: 100%;
+    }
+
+    .left,
+    .auth-side-left,
+    .right,
+    .auth-side-right {
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .card,
+    .auth-card {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .logo-join-us { margin-top: 0 }
+}
+
+/* Form label + custom select styles */
+.form-group {
+    margin-bottom: 14px;
+    overflow: visible;
+}
+
+.select-wrapper {
+    overflow: visible;
+    position: relative;
+}
+
+/* Compact column layout for stacked labels/inputs */
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+    width: 100%;
+}
+.form-column .form-control,
+.form-column .password-wrapper {
+    margin-bottom: 0;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.95rem
+}
+
+/* Show red asterisk for required fields */
+.form-label.required::after {
+    content: " *";
+    color: #d23f44;
+    margin-left: 4px;
+}
+
+.select-wrapper {
+    position: relative
+}
+
+/* Enhanced custom select based on provided style */
+.select-wrapper .select-custom {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    color: var(--primary-dark);
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 2px solid var(--primary);
+    cursor: pointer;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%231f3f8a' class='size-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A") right 14px center / 18px no-repeat;
+    background-color: #fff;
+    font-weight: 600;
+}
+
+.select-wrapper .select-custom:focus {
+    outline: none;
+    border-color: var(--primary-dark);
+    box-shadow: inset 0 1px 2px rgba(31, 63, 138, 0.15);
+}
+
+/* Option visuals: browsers limit styling of native options; we improve colors where supported */
+.select-wrapper .select-custom option {
+    padding: 10px 12px;
+}
+
+.select-wrapper .select-custom option:hover,
+.select-wrapper .select-custom option:focus,
+.select-wrapper .select-custom option:active {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+}
+
+/* Marked selection uses yellow (secondary) with dark navy text for contrast */
+.select-wrapper .select-custom option:checked {
+    background: #eab308;
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+.select-wrapper .select-custom option[disabled] {
+    color: #9aa6b2;
+}
+
+/* Custom dropdown (button + menu) styles */
+.custom-select { width: 100%; position: relative; overflow: visible; }
+.custom-select-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+.custom-select-button .selected-text { overflow: hidden; white-space: nowrap; text-overflow: ellipsis }
+.custom-select-button svg { margin-left: 12px; transform: translateY(2px); transition: transform .18s ease }
+.custom-select.open .custom-select-button svg { transform: translateY(2px) rotate(180deg) }
+.custom-select-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+    background: #fff;
+    border: 1px solid rgba(31,63,138,0.12);
+    box-shadow: 0 10px 30px rgba(16,24,40,0.08);
+    border-radius: 10px;
+    max-height: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 999;
+    padding: 6px;
+    display: none;
+}
+.custom-select.open .custom-select-menu { display: block }
+.custom-select-item {
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--primary-dark);
+}
+.custom-select-item.disabled { color: #9aa6b2; cursor: default }
+.custom-select-item:not(.disabled):hover,
+.custom-select-item:not(.disabled):focus {
+    background: var(--primary);
+    color: #fff;
+}
+.custom-select-item[aria-selected="true"] {
+    background: #eab308;
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+/* Password toggle button inside inputs */
+.password-wrapper { 
+    position: relative; 
+    display: block;
+    width: 100%;
+    overflow: hidden;
+}
+.password-wrapper .form-control { 
+    width: 100%;
+    padding-right: 44px;
+    height: 44px; 
+    margin-bottom: 0;
+}
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 45%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    padding: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 16px;
+}
+.password-toggle:focus { outline: none;}
+.password-toggle i { transition: opacity 120ms ease, transform 120ms ease }
+.password-toggle i.fa-eye { display: inline-block }
+.password-toggle i.fa-eye-slash { display: none }
+.password-toggle[aria-pressed="true"] i.fa-eye { display: none }
+.password-toggle[aria-pressed="true"] i.fa-eye-slash { display: inline-block }

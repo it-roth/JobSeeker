@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard - Job Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/recruiter.css}">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="top-navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="/" class="brand-logo">
+                    <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo"
+                        class="brand-logo-img">
+                </a>
+            </div>
+
+            <div class="navbar-menu">
+                <a th:href="@{/recruiter/jobs/post}" class="nav-link">
+                    <i class="fas fa-plus-circle"></i>
+                    Post New Job
+                </a>
+                <a th:href="@{/recruiter/jobs}" class="nav-link">
+                    <i class="fas fa-eye"></i>
+                    View Your Jobs
+                </a>
+                <a th:href="@{/recruiter/profile}" class="nav-link">
+                    <i class="fas fa-edit"></i>
+                    Edit Account
+                </a>
+            </div>
+
+            <div class="navbar-right">
+                <span class="user-name" th:text="${userEmail}">User</span>
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-container">
+
+            <!-- Page Title -->
+            <div class="page-header">
+                <h1>Recruiter Dashboard</h1>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-section">
+                <div class="stat-card card-purple">
+                    <div class="stat-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-number" th:text="${totalJobs}">0</div>
+                        <div class="stat-label">Total Jobs Posted</div>
+                    </div>
+                </div>
+
+                <div class="stat-card card-pink">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-number" th:text="${totalApplications}">0</div>
+                        <div class="stat-label">Total Applications</div>
+                    </div>
+                </div>
+
+                <div class="stat-card card-cyan">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Profile Views</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jobs Section -->
+            <div class="jobs-section">
+                <div class="section-header">
+                    <h2>Your Posted Jobs</h2>
+                    <a th:href="@{/recruiter/jobs/post}" class="btn-post-job">Post New Job</a>
+                </div>
+
+                <!-- Jobs List -->
+                <div class="jobs-list" th:if="${jobs != null and !jobs.isEmpty()}">
+                    <div class="job-item" th:each="job : ${jobs}">
+                        <div class="job-content">
+                            <div class="job-icon-wrapper">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div class="job-info">
+                                <h3 th:text="${job.jobTitle}">Job Title</h3>
+                                <div class="job-metadata">
+                                    <span th:if="${job.jobCompanyId}">
+                                        <i class="fas fa-building"></i>
+                                        <span th:text="${job.jobCompanyId.name}">Company</span>
+                                    </span>
+                                    <span th:if="${job.jobLocationId}">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span
+                                            th:text="${job.jobLocationId.city + ', ' + job.jobLocationId.country}">Location</span>
+                                    </span>
+                                    <span th:if="${job.jobType}">
+                                        <i class="fas fa-clock"></i>
+                                        <span th:text="${job.jobType}">Job Type</span>
+                                    </span>
+                                    <span th:if="${job.postedDate}">
+                                        <i class="fas fa-calendar"></i>
+                                        <span th:text="${#temporals.format(job.postedDate, 'MMM dd, yyyy')}">Date</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="job-actions">
+                            <a th:href="@{/recruiter/jobs/{id}(id=${job.jobPostId})}"
+                                class="btn-action btn-view">View</a>
+                            <a th:href="@{/recruiter/jobs/{id}/edit(id=${job.jobPostId})}"
+                                class="btn-action btn-edit">Edit</a>
+                            <button class="btn-action btn-delete"
+                                onclick="return confirm('Delete this job?');">Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" th:if="${jobs == null or jobs.isEmpty()}">
+                    <i class="fas fa-briefcase"></i>
+                    <h3>No Jobs Posted Yet</h3>
+                    <p>Start by posting your first job to attract talented candidates.</p>
+                    <a th:href="@{/recruiter/jobs/post}" class="btn-create">Post Your First Job</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

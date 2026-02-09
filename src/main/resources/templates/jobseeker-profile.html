@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate - Set up your Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+
+</head>
+
+<body>
+    <div class="profile-page">
+        <div class="profile-form">
+            <div class="profile-title">
+                <div class="icon-circle">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h1 th:text="${jobSeekerProfile.userAccountId != null} ? 'Edit Your Profile' : 'Create Your Profile'">Create Your Profile</h1>
+                <p th:text="${jobSeekerProfile.userAccountId != null} ? 'Update your information' : 'Complete your information to get started'">Complete your information to get started</p>
+            </div>
+            <form th:action="@{/jobseeker/profile}" th:object="${jobSeekerProfile}" method="post"
+                enctype="multipart/form-data">
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-id-card section-icon"></i>
+                        <h3 class="section-label">Personal Information</h3>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" th:field="*{firstName}" placeholder="First Name"
+                                class="form-control-hero">
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" th:field="*{lastName}" placeholder="Last Name" class="form-control-hero">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-map-marker-alt section-icon"></i>
+                        <h3 class="section-label">Location</h3>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="input-group">
+                            <i class="fas fa-city input-icon"></i>
+                            <input type="text" th:field="*{city}" placeholder="City" class="form-control-hero">
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-map input-icon"></i>
+                            <input type="text" th:field="*{state}" placeholder="State" class="form-control-hero">
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-globe input-icon"></i>
+                            <input type="text" th:field="*{country}" placeholder="Country" class="form-control-hero">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Classification Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-briefcase section-icon"></i>
+                        <h3 class="section-label">Work Classification</h3>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <i class="fas fa-passport input-icon"></i>
+                            <select th:field="*{workAuthorization}" class="form-control-hero">
+                                <option value="">Select Work Authorization</option>
+                                <option value="US Citizen">US Citizen</option>
+                                <option value="Canadian Citizen">Canadian Citizen</option>
+                                <option value="Green Card">Green Card</option>
+                                <option value="H1 Visa">H1 Visa</option>
+                                <option value="TN Permit">TN Permit</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-clock input-icon"></i>
+                            <select th:field="*{employmentType}" class="form-control-hero">
+                                <option value="">Select Employment Type</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Freelance">Freelance</option>
+                                <option value="Contract">Contract</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-code section-icon"></i>
+                        <h3 class="section-label">Skills & Expertise</h3>
+                    </div>
+                    <div class="skills-section">
+                        <div id="skillsContainer">
+                            <!-- Show existing skills if any, otherwise show one empty row -->
+                            <th:block th:if="${jobSeekerProfile.skills != null and !jobSeekerProfile.skills.isEmpty()}">
+                                <div class="skill-row" th:each="skill, stat : ${jobSeekerProfile.skills}">
+                                    <input type="hidden" th:field="*{skills[__${stat.index}__].id}" />
+                                    <div class="input-group">
+                                        <i class="fas fa-tag input-icon"></i>
+                                        <input type="text" th:field="*{skills[__${stat.index}__].name}" 
+                                               placeholder="Skill Name (e.g., Java)" class="form-control-hero">
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-calendar-alt input-icon"></i>
+                                        <input type="text" th:field="*{skills[__${stat.index}__].yearsOfExperience}" 
+                                               placeholder="Years" class="form-control-hero">
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-chart-line input-icon"></i>
+                                        <select th:field="*{skills[__${stat.index}__].experienceLevel}" class="form-control-hero">
+                                            <option value="">Experience Level</option>
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Advanced">Advanced</option>
+                                            <option value="Expert">Expert</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </th:block>
+                            <!-- Show empty row if no skills exist -->
+                            <th:block th:if="${jobSeekerProfile.skills == null or jobSeekerProfile.skills.isEmpty()}">
+                                <div class="skill-row">
+                                    <div class="input-group">
+                                        <i class="fas fa-tag input-icon"></i>
+                                        <input type="text" name="skills[0].name" placeholder="Skill Name (e.g., Java)"
+                                            class="form-control-hero">
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-calendar-alt input-icon"></i>
+                                        <input type="text" name="skills[0].yearsOfExperience" placeholder="Years"
+                                            class="form-control-hero">
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-chart-line input-icon"></i>
+                                        <select name="skills[0].experienceLevel" class="form-control-hero">
+                                            <option value="">Experience Level</option>
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Advanced">Advanced</option>
+                                            <option value="Expert">Expert</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+                        <button type="button" class="btn-add-skill" id="addSkillBtn">
+                            <i class="fas fa-plus"></i> Add Another Skill
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Documents Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <i class="fas fa-file-upload section-icon"></i>
+                        <h3 class="section-label">Documents</h3>
+                    </div>
+                    <div class="form-row">
+                        <!-- Profile Photo Upload -->
+                        <div class="file-upload-wrapper">
+                            <input type="file" name="profilePhotoFile" class="file-input-hidden" accept="image/*" id="profilePhotoInput">
+                            <label for="profilePhotoInput" class="file-upload-card">
+                                <div th:if="${jobSeekerProfile.profilePhoto != null and !jobSeekerProfile.profilePhoto.isEmpty()}" class="uploaded-photo">
+                                    <img th:src="@{'/uploads/photos/' + ${jobSeekerProfile.profilePhoto}}" alt="Profile Photo" class="uploaded-image">
+                                    <div class="upload-overlay">
+                                        <i class="fas fa-camera"></i>
+                                        <span>Click to change</span>
+                                    </div>
+                                </div>
+                                <div th:unless="${jobSeekerProfile.profilePhoto != null and !jobSeekerProfile.profilePhoto.isEmpty()}" class="upload-placeholder">
+                                    <i class="fas fa-image"></i>
+                                    <span class="upload-text">Profile Photo</span>
+                                    <span class="upload-hint">Click to upload</span>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <!-- Resume Upload -->
+                        <div class="file-upload-wrapper">
+                            <input type="file" name="resumeFile" class="file-input-hidden" accept=".pdf,.doc,.docx" id="resumeInput">
+                            <label for="resumeInput" class="file-upload-card">
+                                <div th:if="${jobSeekerProfile.resume != null and !jobSeekerProfile.resume.isEmpty()}" class="uploaded-resume">
+                                    <i class="fas fa-file-pdf resume-icon"></i>
+                                    <span class="resume-text">Resume Uploaded</span>
+                                    <a th:href="@{'/uploads/resumes/' + ${jobSeekerProfile.resume}}" target="_blank" class="view-link" onclick="event.stopPropagation();">
+                                        <i class="fas fa-external-link-alt"></i> View
+                                    </a>
+                                    <div class="upload-overlay">
+                                        <i class="fas fa-upload"></i>
+                                        <span>Click to change</span>
+                                    </div>
+                                </div>
+                                <div th:unless="${jobSeekerProfile.resume != null and !jobSeekerProfile.resume.isEmpty()}" class="upload-placeholder">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <span class="upload-text">Resume</span>
+                                    <span class="upload-hint">Click to upload PDF/DOC</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-check-circle"></i> Save Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script th:src="@{/js/main.js}"></script>
+    <script>
+        // Skill row management
+        document.getElementById('addSkillBtn').addEventListener('click', function () {
+            const container = document.getElementById('skillsContainer');
+            const existingRows = container.querySelectorAll('.skill-row');
+            
+            // Get the highest index from existing rows
+            let maxIndex = -1;
+            existingRows.forEach(row => {
+                const inputs = row.querySelectorAll('input[name^="skills["], select[name^="skills["]');
+                inputs.forEach(input => {
+                    const match = input.name.match(/skills\[(\d+)\]/);
+                    if (match) {
+                        const index = parseInt(match[1]);
+                        if (index > maxIndex) maxIndex = index;
+                    }
+                });
+            });
+            
+            const newIndex = maxIndex + 1;
+            const firstRow = existingRows[0];
+            
+            // Clone the first row
+            const newRow = firstRow.cloneNode(true);
+            
+            // Clear all input values in the cloned row
+            newRow.querySelectorAll('input, select').forEach(element => {
+                if (element.type !== 'hidden') {
+                    element.value = '';
+                }
+            });
+            
+            // Update name attributes with new index
+            newRow.querySelectorAll('input, select').forEach(element => {
+                const oldName = element.getAttribute('name') || '';
+                const oldId = element.getAttribute('id') || '';
+                
+                // Update name attribute
+                if (oldName) {
+                    const newName = oldName.replace(/skills\[\d+\]/, `skills[${newIndex}]`);
+                    element.setAttribute('name', newName);
+                }
+                
+                // Update id attribute for Thymeleaf fields
+                if (oldId) {
+                    const newId = oldId.replace(/skills\d+/, `skills${newIndex}`);
+                    element.setAttribute('id', newId);
+                }
+                
+                // Remove th:field attributes to avoid conflicts
+                element.removeAttribute('th:field');
+            });
+            
+            // Remove hidden ID field from cloned row (new skill should not have ID)
+            const hiddenId = newRow.querySelector('input[type="hidden"]');
+            if (hiddenId) {
+                hiddenId.remove();
+            }
+            
+            // Update placeholders
+            const skillNameInput = newRow.querySelector('input[name*=".name"]');
+            if (skillNameInput) {
+                skillNameInput.placeholder = 'Skill Name (e.g., Python)';
+            }
+            
+            container.appendChild(newRow);
+        });
+
+        // File upload preview for profile photo
+        document.getElementById('profilePhotoInput')?.addEventListener('change', function(e) {
+            if (e.target.files[0]) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const label = document.querySelector('label[for="profilePhotoInput"]');
+                    label.innerHTML = `
+                        <div class="uploaded-photo">
+                            <img src="${event.target.result}" alt="Profile Photo" class="uploaded-image">
+                            <div class="upload-overlay">
+                                <i class="fas fa-camera"></i>
+                                <span>Click to change</span>
+                            </div>
+                        </div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // File upload preview for resume
+        document.getElementById('resumeInput')?.addEventListener('change', function(e) {
+            if (e.target.files[0]) {
+                const fileName = e.target.files[0].name;
+                const label = document.querySelector('label[for="resumeInput"]');
+                label.innerHTML = `
+                    <div class="uploaded-resume">
+                        <i class="fas fa-file-pdf resume-icon"></i>
+                        <span class="resume-text">${fileName}</span>
+                        <div class="upload-overlay">
+                            <i class="fas fa-upload"></i>
+                            <span>Click to change</span>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+
+</html>

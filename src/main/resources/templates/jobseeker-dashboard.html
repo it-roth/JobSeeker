@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Dashboard - Job Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <style>
+        body { margin: 0; padding: 0; overflow-x: hidden; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-candidate">
+        <div class="container-nav">
+            <a href="/" class="brand-logo">
+                <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo" class="brand-logo-img">
+            </a>
+            <ul class="navbar-nav-candidate">
+                <li><a href="/jobseeker/jobs"><i class="fas fa-search"></i> Search for Jobs</a></li>
+                <li><a href="/jobseeker/applications"><i class="fas fa-bookmark"></i> View Saved Jobs</a></li>
+                <li><a href="/jobseeker/profile"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+            </ul>
+                <div class="navbar-right-candidate">
+                <span class="user-email-candidate" th:text="${userEmail}">user@example.com</span>
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="btn-logout-candidate">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content (with left filters) -->
+    <div class="dashboard-wrapper-candidate">
+    <div class="dashboard-layout-candidate">
+        <aside class="sidebar-candidate">
+            <h4 class="filter-title-candidate">FILTER RESULTS</h4>
+            <div class="filter-section-candidate">
+                <h5>Employment Type</h5>
+                <label><input type="checkbox" name="employment" value="parttime"> Part-Time</label>
+                <label><input type="checkbox" name="employment" value="fulltime"> Full-Time</label>
+                <label><input type="checkbox" name="employment" value="freelance"> Freelance</label>
+            </div>
+            <div class="filter-section-candidate">
+                <h5>Remote</h5>
+                <label><input type="checkbox" name="remote" value="remote-only"> Remote-Only</label>
+                <label><input type="checkbox" name="remote" value="office-only"> Office-Only</label>
+                <label><input type="checkbox" name="remote" value="partial-remote"> Partial-Remote</label>
+            </div>
+            <div class="filter-section-candidate">
+                <h5>Date Posted</h5>
+                <label><input type="checkbox" name="datePosted" value="today"> Today</label>
+                <label><input type="checkbox" name="datePosted" value="week"> Last 7 Days</label>
+                <label><input type="checkbox" name="datePosted" value="month"> Last 30 Days</label>
+            </div>
+        </aside>
+
+        <main class="main-content-candidate">
+            <div class="main-hero-candidate">
+                <h1 class="dashboard-title-candidate">Candidate Dashboard</h1>
+                <form th:action="@{/jobseeker/jobs}" method="get" class="search-form-hero-candidate">
+                    <input type="text" name="search" id="jobSearch" class="form-control-hero" placeholder="Search for a job">
+                    <input type="text" name="location" id="locationSearch" class="form-control-hero" placeholder="Job Location">
+                    <button type="submit" class="search-btn-hero-candidate"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            <!-- Search Results Section -->
+            <div class="search-results-section-candidate">
+                <h2 class="results-header-candidate">Search Results</h2>
+
+                <!-- Job Listings -->
+                <div class="job-list-candidate" th:if="${allJobs != null and !allJobs.isEmpty()}">
+                    <div th:each="job, iterStat : ${allJobs}" th:if="${iterStat.index < 10}" class="job-card-candidate">
+                        <div class="job-card-content-candidate">
+                            <h3 class="job-card-title-candidate" th:text="${job.jobTitle}">Data Analyst/Software Developer</h3>
+                        </div>
+                        <span class="job-location-candidate" th:text="${job.jobLocationId != null ? job.jobLocationId.city + ', ' + (job.jobLocationId.state != null ? job.jobLocationId.state : job.jobLocationId.country) : 'Location'}">Philadelphia, PA</span>
+                        <span class="job-company-candidate" th:text="${job.jobCompanyId != null ? job.jobCompanyId.name : 'Company'}">TechNova Analytics Inc.</span>
+                    </div>
+                </div>
+                
+                <div th:if="${allJobs == null or allJobs.isEmpty()}" class="no-jobs-message">
+                    <p>No jobs available at the moment. Check back soon!</p>
+                </div>
+            </div>
+
+            <!-- Recent Jobs (Card format below) -->
+            <div class="card" style="display: none;">
+                <div class="card-header">
+                    <h2>Recent Job Postings</h2>
+                </div>
+                <div class="card-body">
+                    <div th:if="${allJobs != null and !allJobs.isEmpty()}" class="job-list">
+                        <div th:each="job, iterStat : ${allJobs}" th:if="${iterStat.index < 5}" class="job-card" th:data-location="${job.jobLocationId != null ? job.jobLocationId.city : ''}">
+                            <div class="job-card-logo">💼</div>
+                            <div class="job-card-content">
+                                <h3 class="job-card-title" th:text="${job.jobTitle}">Job Title</h3>
+                                <p class="job-card-company" th:text="${job.jobCompanyId != null ? job.jobCompanyId.name : 'Company Name'}">Company Name</p>
+                                <div class="job-card-meta">
+                                    <span th:text="${job.jobLocationId != null ? job.jobLocationId.city + ', ' + job.jobLocationId.country : 'Location'}">Location</span>
+                                    <span th:text="${job.jobType}">Job Type</span>
+                                    <span th:text="'Posted: ' + ${job.postedDate}">Posted Date</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    </div>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

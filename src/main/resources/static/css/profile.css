@@ -1,0 +1,458 @@
+/* Profile page specific styles - Modern redesign */
+
+/* Reset and base layout */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    overflow-x: hidden;
+}
+
+/* Main page container */
+.profile-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 1rem;
+}
+
+/* Profile form card */
+.profile-form {
+    max-width: 750px;
+    width: 100%;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(13,38,76,0.06);
+}
+
+/* Profile title section */
+.profile-title { 
+    text-align: center; 
+    margin-bottom: 1.5rem;
+}
+
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #0a2473 0%, #1e3a8a 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.75rem;
+    box-shadow: 0 4px 16px rgba(10,36,115,0.15);
+}
+
+.icon-circle i {
+    font-size: 1.25rem;
+    color: white;
+}
+
+.profile-title h1 { 
+    font-size: 1.5rem;
+    font-weight: 700; 
+    letter-spacing: -0.3px;
+    color: #0a2473;
+    margin: 0 0 0.25rem 0;
+}
+
+.profile-title p {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Form sections */
+.form-section { 
+    margin-bottom: 1.5rem;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1.5px solid #e5e7eb;
+}
+
+.section-icon {
+    color: #0a2473;
+    font-size: 0.95rem;
+}
+
+.section-label {
+    font-size: 0.8rem;
+    color: #374151;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Form rows */
+.form-row, .form-row-3 {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 0;
+}
+
+.form-row { 
+    grid-template-columns: repeat(2, 1fr); 
+}
+
+.form-row-3 { 
+    grid-template-columns: repeat(3, 1fr); 
+}
+
+/* Input groups with icons */
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 0.75rem;
+    color: #9ca3af;
+    font-size: 0.85rem;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Form controls */
+.form-control-hero {
+    padding: 0.65rem 0.75rem 0.65rem 2.25rem;
+    border-radius: 8px;
+    border: 1.5px solid #e5e7eb;
+    font-size: 0.85rem;
+    background: #ffffff;
+    color: #1f2937;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.form-control-hero:focus {
+    outline: none;
+    border-color: #0a2473;
+    box-shadow: 0 0 0 3px rgba(10,36,115,0.1);
+}
+
+.form-control-hero::placeholder { 
+    color: #9ca3af; 
+}
+
+/* Select dropdowns */
+select.form-control-hero {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.25rem;
+    cursor: pointer;
+}
+
+select.form-control-hero option {
+    padding: 0.5rem;
+}
+
+/* Skills section */
+.skills-section {
+    margin-top: 0;
+}
+
+#skillsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 0.75rem;
+}
+
+.skill-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr;
+    gap: 0.65rem;
+    padding: 0.65rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1.5px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.skill-row:hover {
+    border-color: #0a2473;
+    box-shadow: 0 4px 12px rgba(10,36,115,0.08);
+}
+
+/* Buttons */
+.btn-add-skill {
+    background: transparent;
+    border: 1.5px dashed #d1d5db;
+    color: #6b7280;
+    padding: 0.55rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.btn-add-skill:hover {
+    border-color: #0a2473;
+    color: #0a2473;
+    background: rgba(10,36,115,0.05);
+}
+
+.btn-add-skill i {
+    font-size: 0.75rem;
+}
+
+/* File upload styling */
+.file-upload-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.file-upload-card {
+    display: block;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px dashed #d1d5db;
+    background: #f9fafb;
+    min-height: 180px;
+    position: relative;
+}
+
+.file-upload-card:hover {
+    border-color: #0a2473;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10, 36, 115, 0.1);
+}
+
+/* Upload placeholder */
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    min-height: 180px;
+}
+
+.upload-placeholder i {
+    font-size: 2.5rem;
+    color: #9ca3af;
+    margin-bottom: 0.75rem;
+}
+
+.upload-text {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+
+.upload-hint {
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
+/* Uploaded photo */
+.uploaded-photo {
+    position: relative;
+    width: 100%;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+}
+
+.uploaded-image {
+    max-width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Uploaded resume */
+.uploaded-resume {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    min-height: 180px;
+    position: relative;
+}
+
+.resume-icon {
+    font-size: 3rem;
+    color: #0a2473;
+    margin-bottom: 0.75rem;
+}
+
+.resume-text {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.view-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #0a2473;
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    background: #e5e7eb;
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+    z-index: 10;
+}
+
+.view-link:hover {
+    background: #d1d5db;
+    transform: scale(1.05);
+}
+
+/* Hover overlay */
+.upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 36, 115, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+}
+
+.file-upload-card:hover .upload-overlay {
+    opacity: 1;
+}
+
+.upload-overlay i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.upload-overlay span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Form actions */
+.form-actions { 
+    text-align: center; 
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1.5px solid #e5e7eb;
+}
+
+.btn-save {
+    background: linear-gradient(135deg, #fa4d14 0%, #ff6a2b 100%);
+    color: white;
+    border: none;
+    padding: 0.7rem 2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(250,77,20,0.2);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(250,77,20,0.3);
+}
+
+.btn-save i {
+    font-size: 0.9rem;
+}
+
+/* Brand logo */
+.brand-logo-img { 
+    width: 140px; 
+    height: auto; 
+    display: block; 
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .form-row-3 { 
+        grid-template-columns: 1fr; 
+    }
+    
+    .skill-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-form {
+        padding: 1.5rem;
+    }
+    
+    .profile-page {
+        padding: 1.5rem 0.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-form { 
+        padding: 1.25rem; 
+    }
+    
+    .form-row { 
+        grid-template-columns: 1fr; 
+    }
+    
+    .profile-title h1 {
+        font-size: 1.35rem;
+    }
+    
+    .icon-circle {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .icon-circle i {
+        font-size: 1.1rem;
+    }
+    
+    .profile-page {
+        padding: 1rem 0.5rem;
+    }
+}
