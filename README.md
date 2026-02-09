@@ -169,3 +169,4 @@ This project is for educational purposes.
 
 For issues or questions, please create an issue in the repository.
 # JobPortal
+# JobSeeker
