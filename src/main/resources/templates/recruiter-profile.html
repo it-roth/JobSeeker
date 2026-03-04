@@ -1,122 +1,246 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recruiter Profile - Job Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/css/recruiter.css}">
+    <title>Recruiter Profile - Job Portal</title>    <link rel="icon" type="image/png" th:href="@{/img/Logo.png}" href="/img/Logo.png">    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+        }
+
+        /* Profile form card */
+        .profile-form {
+            max-width: 750px;
+            width: 100%;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(13, 38, 76, 0.06);
+        }
+
+        /* Profile title section */
+        .profile-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #0a2473 0%, #1e3a8a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem;
+            box-shadow: 0 4px 16px rgba(10, 36, 115, 0.15);
+        }
+
+        .icon-circle i {
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .profile-title h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #0a2473;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .profile-title p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        /* Form sections */
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1.5px solid #e5e7eb;
+        }
+
+        .section-icon {
+            color: #0a2473;
+            font-size: 0.95rem;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            color: #374151;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .back-cancel {
+            color: #0a2473;
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        .back-cancel:hover {
+            color:  #fa4d14;
+        }
+
+        .back-cancel i {
+            margin-right: 0.25rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .profile-form {
+                padding: 1.25rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
     <!-- Profile Form -->
-    <div class="profile-page">
-        <div class="profile-form">
-            <div class="profile-title">
-                <div class="icon-circle"><i class="fas fa-user-tie"></i></div>
-                <h1>Recruiter</h1>
-                <p>Set up your Profile</p>
+    <div class="profile-form">
+        <a th:href="@{/recruiter/dashboard}" class="back-cancel"><i class="fas fa-angle-left"></i> Back to Dashboard</a>
+        <div class="profile-title">
+            <div class="icon-circle"><i class="fas fa-user-tie"></i></div>
+            <h1>Recruiter</h1>
+            <p>Set up your Profile</p>
+        </div>
+
+        <form th:action="@{/recruiter/profile}" th:object="${profile}" method="post" enctype="multipart/form-data">
+            <div class="form-section">
+                <div class="section-header">
+                    <span class="section-icon"><i class="fas fa-id-badge"></i></span>
+                    <h4 class="section-label">Name</h4>
+                </div>
+
+                <div class="form-row">
+                    <div>
+                        <div class="input-group">
+                            <i class="input-icon fas fa-user"></i>
+                            <input type="text" th:field="*{firstName}" placeholder="First name"
+                                class="form-control-hero">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="input-group">
+                            <i class="input-icon fas fa-user"></i>
+                            <input type="text" th:field="*{lastName}" placeholder="Last name" class="form-control-hero">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row-3" style="margin-top:0.75rem;">
+                    <div>
+                        <input type="text" th:field="*{city}" placeholder="City" class="form-control-hero">
+                    </div>
+                    <div>
+                        <input type="text" th:field="*{state}" placeholder="State" class="form-control-hero">
+                    </div>
+                    <div>
+                        <input type="text" th:field="*{country}" placeholder="Country" class="form-control-hero">
+                    </div>
+                </div>
+
+                <div style="margin-top:0.75rem;">
+                    <input type="text" th:field="*{company}" placeholder="Company" class="form-control-hero">
+                </div>
             </div>
 
-            <form th:action="@{/recruiter/profile}" th:object="${recruiterProfile}" method="post" enctype="multipart/form-data">
-                <div class="form-section">
-                    <div class="section-header">
-                        <span class="section-icon"><i class="fas fa-id-badge"></i></span>
-                        <h4 class="section-label">Name</h4>
-                    </div>
-
-                    <div class="form-row">
-                        <div>
-                            <div class="input-group">
-                                <i class="input-icon fas fa-user"></i>
-                                <input type="text" th:field="*{firstName}" placeholder="First name" class="form-control-hero">
-                            </div>
-                        </div>
-                        <div>
-                            <div class="input-group">
-                                <i class="input-icon fas fa-user"></i>
-                                <input type="text" th:field="*{lastName}" placeholder="Last name" class="form-control-hero">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row-3" style="margin-top:0.75rem;">
-                        <div>
-                            <input type="text" th:field="*{city}" placeholder="City" class="form-control-hero">
-                        </div>
-                        <div>
-                            <input type="text" th:field="*{state}" placeholder="State" class="form-control-hero">
-                        </div>
-                        <div>
-                            <input type="text" th:field="*{country}" placeholder="Country" class="form-control-hero">
-                        </div>
-                    </div>
-
-                    <div style="margin-top:0.75rem;">
-                        <input type="text" th:field="*{company}" placeholder="Company" class="form-control-hero">
-                    </div>
+            <div class="form-section">
+                <div class="section-header">
+                    <span class="section-icon"><i class="fas fa-camera"></i></span>
+                    <h4 class="section-label">Profile Photo</h4>
                 </div>
 
-                <div class="form-section">
-                    <div class="section-header">
-                        <span class="section-icon"><i class="fas fa-camera"></i></span>
-                        <h4 class="section-label">Profile Photo</h4>
-                    </div>
-
-                    <div style="margin-top:0.75rem;">
-                        <!-- Profile Photo Upload -->
-                        <div class="file-upload-wrapper">
-                            <input type="file" name="profilePhotoFile" class="file-input-hidden" accept="image/*" id="recruiterProfilePhotoInput">
-                            <label for="recruiterProfilePhotoInput" class="file-upload-card">
-                                <div th:if="${recruiterProfile.profilePhoto != null and !recruiterProfile.profilePhoto.isEmpty()}" class="uploaded-photo">
-                                    <img th:src="@{'/uploads/photos/' + ${recruiterProfile.profilePhoto}}" alt="Profile Photo" class="uploaded-image">
-                                    <div class="upload-overlay">
-                                        <i class="fas fa-camera"></i>
-                                        <span>Click to change</span>
-                                    </div>
+                <div style="margin-top:0.75rem;">
+                    <!-- Profile Photo Upload -->
+                    <div class="file-upload-wrapper">
+                        <input type="file" name="image" class="file-input-hidden" accept="image/*"
+                            id="recruiterProfilePhotoInput">
+                        <label for="recruiterProfilePhotoInput" class="file-upload-card">
+                            <div th:if="${profile.profilePhoto != null and !profile.profilePhoto.isEmpty()}"
+                                class="uploaded-photo">
+                                <img th:src="@{'/uploads/photos/' + ${profile.profilePhoto}}" alt="Profile Photo"
+                                    class="uploaded-image">
+                                <div class="upload-overlay">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Click to change</span>
                                 </div>
-                                <div th:unless="${recruiterProfile.profilePhoto != null and !recruiterProfile.profilePhoto.isEmpty()}" class="upload-placeholder">
-                                    <i class="fas fa-image"></i>
-                                    <span class="upload-text">Profile Photo</span>
-                                    <span class="upload-hint">Click to upload</span>
-                                </div>
-                            </label>
-                        </div>
+                            </div>
+                            <div th:unless="${profile.profilePhoto != null and !profile.profilePhoto.isEmpty()}"
+                                class="upload-placeholder">
+                                <i class="fas fa-image"></i>
+                                <span class="upload-text">Profile Photo</span>
+                                <span class="upload-hint">Click to upload</span>
+                            </div>
+                        </label>
                     </div>
                 </div>
+            </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn-save"><i class="fas fa-save"></i>&nbsp;Save</button>
-                </div>
-            </form>
-        </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-save"><i class="fas fa-save"></i>&nbsp;Save</button>
+            </div>
+        </form>
     </div>
 
 </body>
 
 <script>
     // File upload preview for recruiter profile photo
-    document.getElementById('recruiterProfilePhotoInput')?.addEventListener('change', function(e) {
+    document.getElementById('recruiterProfilePhotoInput')?.addEventListener('change', function (e) {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = function (event) {
                 const label = document.querySelector('label[for="recruiterProfilePhotoInput"]');
                 if (label) {
-                    label.innerHTML = `
-                        <div class="uploaded-photo">
-                            <img src="${event.target.result}" alt="Profile Photo" class="uploaded-image">
-                            <div class="upload-overlay">
-                                <i class="fas fa-camera"></i>
-                                <span>Click to change</span>
-                            </div>
-                        </div>
-                    `;
+                    label.innerHTML =
+                        '<div class="uploaded-photo">' +
+                        '<img src="' + event.target.result + '" alt="Profile Photo" class="uploaded-image">' +
+                        '<div class="upload-overlay">' +
+                        '<i class="fas fa-camera"></i>' +
+                        '<span>Click to change</span>' +
+                        '</div>' +
+                        '</div>';
                 }
             };
             reader.readAsDataURL(file);
         }
     });
 </script>
+
 </html>

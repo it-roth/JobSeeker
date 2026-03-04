@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Jobs - Job Portal</title>
+    <link rel="icon" type="image/png" th:href="@{/img/Logo.png}" href="/img/Logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/notifications.css}">
+    <link rel="stylesheet" th:href="@{/css/confirm-modal.css}">
+    <style>
+        body { margin: 0; padding: 0; overflow-x: hidden; }
+        .remove-btn {
+            padding: 0.4rem 0.875rem;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            margin-top: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .remove-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(220, 53, 69, 0.3);
+        }
+        .job-card-with-actions {
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .job-card-with-actions:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .job-card-clickable {
+            transition: background-color 0.2s ease;
+        }
+        .job-card-clickable:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-candidate">
+        <div class="container-nav">
+      
+            <ul class="navbar-nav-candidate">
+                <li><a href="/jobseeker/jobs"><i class="fas fa-search"></i> Search for Jobs</a></li>
+                <li><a href="/jobseeker/saved-jobs"><i class="fas fa-briefcase"></i> My Jobs</a></li>
+                <li><a href="/jobseeker/profile"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+            </ul>
+            <div class="navbar-right-candidate">
+                <div class="user-dropdown">
+                    <button class="user-dropdown-btn" id="userDropdownBtn">
+                        <div class="user-avatar">
+                            <img th:if="${profilePhoto != null and !profilePhoto.isEmpty()}" 
+                                 th:src="@{'/uploads/photos/' + ${profilePhoto}}" 
+                                 alt="Profile" 
+                                 class="user-avatar-img">
+                            <i th:unless="${profilePhoto != null and !profilePhoto.isEmpty()}" 
+                               class="fas fa-user-circle"></i>
+                        </div>
+                    </button>
+                    <div class="user-dropdown-menu" id="userDropdownMenu">
+                        <a href="/jobseeker/profile" class="dropdown-item">
+                            <i class="fas fa-user-edit"></i>
+                            <span>My Profile</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form th:action="@{/logout}" method="post" style="margin: 0;">
+                            <button type="submit" class="dropdown-item dropdown-logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-wrapper-candidate">
+    <div class="dashboard-layout-candidate">
+        <aside class="sidebar-candidate">
+            <a href="/jobseeker/dashboard" class="brand-logo sidebar-brand">
+                <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo" class="brand-logo-img">
+            </a>
+            <h4 class="filter-title-candidate" style="color: #fff;">MY JOBS</h4>
+            <div class="filter-section-candidate">
+                <p style="color: #fff; font-size: 0.9rem; line-height: 1.6;">
+                    <i class="fas fa-bookmark" style="color: #2e7d32; margin-right: 0.5rem;"></i><strong>Saved Jobs:</strong> Jobs you've bookmarked for later review.
+                </p>
+                <p style="color: #fff; font-size: 0.9rem; line-height: 1.6; margin-top: 1rem;">
+                    <i class="fas fa-paper-plane" style="color: #ff4d3d; margin-right: 0.5rem;"></i><strong>Applied Jobs:</strong> Track applications you've submitted.
+                </p>
+            </div>
+        </aside>
+
+        <main class="main-content-candidate">
+            <div class="main-hero-candidate" style="padding: 1.5rem 1.25rem; margin-bottom: 1.25rem;">
+                <div class="hero-content">
+                    <h1 class="dashboard-title-candidate" style="font-size: 1.5rem; margin-bottom: 0.4rem;">My Saved Jobs & Applications</h1>
+                    <p class="dashboard-subtitle-candidate" style="font-size: 0.875rem;">Track all your saved and applied jobs in one place</p>
+                </div>
+            </div>
+
+            <!-- Saved & Applied Jobs Section -->
+            <div class="search-results-section-candidate" style="margin-top: 0.75rem;">
+                <!-- Saved Jobs Section -->
+                <div th:if="${savedJobs != null and !savedJobs.isEmpty()}">
+                    <h2 class="results-header-candidate" style="font-size: 1.125rem; margin-bottom: 0.875rem; padding: 0 0.5rem;">
+                        <i class="fas fa-bookmark" style="margin-right: 0.5rem; color: #2e7d32;"></i>
+                        <span th:text="'Saved Jobs (' + ${savedJobs.size()} + ')'">Saved Jobs</span>
+                    </h2>
+
+                    <div class="job-list-candidate" style="gap: 0.75rem;">
+                        <div th:each="savedJob : ${savedJobs}" 
+                             class="job-card-candidate job-card-with-actions"
+                             style="border-left: 4px solid #2e7d32; padding: 0; border-radius: 6px; overflow: hidden;">
+                            <div th:attr="data-job-id=${savedJob.job.jobPostId}" class="job-card-clickable" style="cursor: pointer; padding: 1rem;" onclick="navigateToJob(this)">
+                                <div class="job-card-content-candidate" style="margin-bottom: 0.125rem;">
+                                    <h3 class="job-card-title-candidate" style="font-size: 1.125rem; margin-bottom: 0.25rem; font-weight: 600; color: #1a1a1a; line-height: 1.3;" th:text="${savedJob.job.jobTitle}">Software Developer</h3>
+                                </div>
+                                <span class="job-location-candidate" style="font-size: 0.875rem; margin-bottom: 0.125rem; display: flex; align-items: center; color: #666;">
+                                    <i class="fas fa-map-marker-alt" style="font-size: 0.75rem; margin-right: 0.35rem; color: #2e7d32;"></i>
+                                    <span th:text="${savedJob.job.jobLocationId != null ? savedJob.job.jobLocationId.city + ', ' + (savedJob.job.jobLocationId.state != null ? savedJob.job.jobLocationId.state : savedJob.job.jobLocationId.country) : 'Location'}">Location</span>
+                                </span>
+                                <span class="job-company-candidate" style="font-size: 0.875rem; margin-bottom: 0.375rem; display: flex; align-items: center; color: #666;">
+                                    <i class="fas fa-building" style="font-size: 0.75rem; margin-right: 0.35rem; color: #2e7d32;"></i>
+                                    <span th:text="${savedJob.job.jobCompanyId != null ? savedJob.job.jobCompanyId.name : 'Company'}">Company</span>
+                                </span>
+                                <div class="job-meta-tags" style="gap: 0.45rem; margin-top: 0; flex-wrap: wrap;">
+                                    <span class="job-tag" style="background: #2e7d32; color: white; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                        <i class="fas fa-bookmark" style="font-size: 0.7rem;"></i> Saved
+                                    </span>
+                                    <span class="job-tag" th:if="${savedJob.job.jobType != null}" th:text="${savedJob.job.jobType}" style="background: #e3f2fd; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; color: #1565c0; font-weight: 500;">Full-Time</span>
+                                    <span class="job-tag" th:if="${savedJob.job.remote != null}" th:text="${savedJob.job.remote}" style="background: #fff3e0; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; color: #e65100; font-weight: 500;">Remote</span>
+                                    <span class="job-tag" th:if="${savedJob.job.salary != null}" th:text="${savedJob.job.salary}" style="background: #f3e5f5; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; color: #6a1b9a; font-weight: 500;">Salary</span>
+                                </div>
+                            </div>
+                            <div style="border-top: 1px solid #e0e0e0; padding: 0.75rem 1rem; background: #fafafa; text-align: left;">
+                                <form th:action="@{/jobseeker/saved-jobs/delete/{id}(id=${savedJob.id})}" method="post" 
+                                      style="margin: 0; display: inline;" 
+                                      data-confirm="Are you sure you want to remove this job from your saved list?"
+                                      data-confirm-title="Remove Saved Job?"
+                                      data-confirm-type="warning">
+                                    <button type="submit" class="remove-btn">
+                                        <i class="fas fa-times"></i> Remove
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Applied Jobs Section -->
+                <div th:if="${applications != null and !applications.isEmpty()}" style="margin-top: 2rem;">
+                    <h2 class="results-header-candidate" style="font-size: 1.125rem; margin-bottom: 0.875rem; padding: 0 0.5rem;">
+                        <i class="fas fa-paper-plane" style="margin-right: 0.5rem; color: #ff4d3d;"></i>
+                        <span th:text="'Applied Jobs (' + ${applications.size()} + ')'">Applied Jobs</span>
+                    </h2>
+
+                    <div class="job-list-candidate" style="gap: 0.75rem;">
+                        <div th:each="app : ${applications}" 
+                             class="job-card-candidate job-card-with-actions"
+                             style="border-left: 4px solid #ff4d3d; padding: 0; border-radius: 6px; overflow: hidden;">
+                            <div th:attr="data-job-id=${app.job.jobPostId}" class="job-card-clickable" style="cursor: pointer; padding: 1rem;" onclick="navigateToJob(this)">
+                                <div class="job-card-content-candidate" style="margin-bottom: 0.125rem;">
+                                    <h3 class="job-card-title-candidate" style="font-size: 1.125rem; margin-bottom: 0.25rem; font-weight: 600; color: #1a1a1a; line-height: 1.3;" th:text="${app.job.jobTitle}">Software Developer</h3>
+                                </div>
+                                <span class="job-location-candidate" style="font-size: 0.875rem; margin-bottom: 0.125rem; display: flex; align-items: center; color: #666;">
+                                    <i class="fas fa-map-marker-alt" style="font-size: 0.75rem; margin-right: 0.35rem; color: #ff4d3d;"></i>
+                                    <span th:text="${app.job.jobLocationId != null ? app.job.jobLocationId.city + ', ' + (app.job.jobLocationId.state != null ? app.job.jobLocationId.state : app.job.jobLocationId.country) : 'Location'}">Location</span>
+                                </span>
+                                <span class="job-company-candidate" style="font-size: 0.875rem; margin-bottom: 0.375rem; display: flex; align-items: center; color: #666;">
+                                    <i class="fas fa-building" style="font-size: 0.75rem; margin-right: 0.35rem; color: #ff4d3d;"></i>
+                                    <span th:text="${app.job.jobCompanyId != null ? app.job.jobCompanyId.name : 'Company'}">Company</span>
+                                </span>
+                                <div class="job-meta-tags" style="gap: 0.45rem; margin-top: 0; flex-wrap: wrap;">
+                                    <span class="job-tag" style="background: #ff4d3d; color: white; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                        <i class="fas fa-check-circle" style="font-size: 0.7rem;"></i> Applied
+                                    </span>
+                                    <span class="job-tag" th:if="${app.job.jobType != null}" th:text="${app.job.jobType}" style="background: #e3f2fd; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; color: #1565c0; font-weight: 500;">Full-Time</span>
+                                    <span class="job-tag" th:if="${app.job.remote != null}" th:text="${app.job.remote}" style="background: #fff3e0; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; color: #e65100; font-weight: 500;">Remote</span>
+                                    <span class="job-tag" th:if="${app.applyDate != null}" style="background: #f3f4f6; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; color: #666; font-weight: 500; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                        <i class="fas fa-clock" style="font-size: 0.7rem;"></i> <span th:text="${app.applyDate}">Date</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div th:if="${app.coverLetter != null && !#strings.isEmpty(app.coverLetter)}" style="border-top: 1px solid #e0e0e0; padding: 0.75rem 1rem; background: #fff8f8;">
+                                <div style="display: flex; align-items: start; gap: 0.5rem;">
+                                    <i class="fas fa-envelope" style="color: #ff4d3d; font-size: 0.85rem; margin-top: 0.125rem;"></i>
+                                    <p style="font-size: 0.825rem; color: #666; margin: 0; font-style: italic; line-height: 1.5; flex: 1;" th:text="${#strings.length(app.coverLetter) > 120 ? #strings.substring(app.coverLetter, 0, 120) + '...' : app.coverLetter}">Cover letter preview...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div th:if="${(savedJobs == null or savedJobs.isEmpty()) and (applications == null or applications.isEmpty())}" class="no-jobs-message" style="padding: 1.5rem; font-size: 0.875rem;">
+                    <i class="fas fa-briefcase" style="font-size: 2.5rem; color: #ccc; margin-bottom: 0.75rem;"></i>
+                    <p>You haven't saved or applied to any jobs yet.</p>
+                    <a href="/jobseeker/jobs" style="display: inline-block; margin-top: 0.75rem; padding: 0.625rem 1.25rem; background: #ff4d3d; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 0.875rem;">
+                        <i class="fas fa-search"></i> Browse Jobs
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+    </div>
+    <script th:src="@{/js/main.js}"></script>
+    <script>
+        // User dropdown toggle
+        const userDropdownBtn = document.getElementById('userDropdownBtn');
+        const userDropdown = userDropdownBtn?.parentElement;
+        
+        if (userDropdownBtn && userDropdown) {
+            userDropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userDropdown.contains(e.target)) {
+                    userDropdown.classList.remove('active');
+                }
+            });
+        }
+        
+        // Make job cards clickable (except remove button)
+        function navigateToJob(element) {
+            const jobId = element.getAttribute('data-job-id');
+            if (jobId) {
+                window.location.href = '/jobseeker/jobs/' + jobId;
+            }
+        }
+        
+        // For applied jobs that use onclick directly
+        document.addEventListener('DOMContentLoaded', function() {
+            const appliedJobCards = document.querySelectorAll('.job-card-candidate[onclick]');
+            appliedJobCards.forEach(card => {
+                // The onclick is already set inline, no need to add another listener
+            });
+        });
+    </script>
+    <script th:src="@{/js/confirm-modal.js}"></script>
+    <script th:src="@{/js/notifications.js}"></script>
+</body>
+</html>

@@ -5,146 +5,304 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recruiter Dashboard - Job Portal</title>
+    <link rel="icon" type="image/png" th:href="@{/img/Logo.png}" href="/img/Logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/css/recruiter.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/notifications.css}">
+    <link rel="stylesheet" th:href="@{/css/confirm-modal.css}">
+    <style>
+        body { margin: 0; padding: 0; overflow-x: hidden; }
+
+        .dashboard-header {
+            background: white;
+            padding: 1.75rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0a2473;
+            margin: 0;
+        }
+
+        .job-listings-container {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1.5fr;
+            align-items: center;
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid #e5e5e5;
+            transition: background-color 0.2s;
+        }
+
+        .job-row:last-child {
+            border-bottom: none;
+        }
+
+        .job-row:hover {
+            background-color: #f8f8f8;
+        }
+
+        .job-title-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .job-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0a2473;
+        }
+
+        .candidates-applied {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .job-location {
+            text-align: center;
+            font-size: 14px;
+            color: #0a2473;
+        }
+
+        .job-company {
+            text-align: right;
+            font-size: 14px;
+            color: #0a2473;
+        }
+
+        .no-jobs {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .no-jobs p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-post-job {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: #0a2473;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-post-job:hover {
+            background: #0d3a63;
+        }
+
+        @media (max-width: 1024px) {
+            .job-row {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .job-location,
+            .job-company {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header h1 {
+                font-size: 18px;
+            }
+
+            .job-row {
+                padding: 1rem 1.25rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Top Navigation Bar -->
-    <nav class="top-navbar">
-        <div class="navbar-container">
-            <div class="navbar-brand">
-                <a href="/" class="brand-logo">
-                    <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo"
-                        class="brand-logo-img">
-                </a>
-            </div>
-
-            <div class="navbar-menu">
-                <a th:href="@{/recruiter/jobs/post}" class="nav-link">
-                    <i class="fas fa-plus-circle"></i>
-                    Post New Job
-                </a>
-                <a th:href="@{/recruiter/jobs}" class="nav-link">
-                    <i class="fas fa-eye"></i>
-                    View Your Jobs
-                </a>
-                <a th:href="@{/recruiter/profile}" class="nav-link">
-                    <i class="fas fa-edit"></i>
-                    Edit Account
-                </a>
-            </div>
-
-            <div class="navbar-right">
-                <span class="user-name" th:text="${userEmail}">User</span>
-                <form th:action="@{/logout}" method="post" style="display: inline;">
-                    <button type="submit" class="btn-logout">Logout</button>
-                </form>
+    <!-- Navbar -->
+    <nav class="navbar-candidate">
+        <div class="container-nav">
+            <ul class="navbar-nav-candidate">
+                <li><a th:href="@{/recruiter/jobs/post}"><i class="fas fa-file-alt"></i> Post New Job</a></li>
+                <li><a th:href="@{/recruiter/dashboard}" class="active"><i class="fas fa-eye"></i> View Your Jobs</a></li>
+                <li><a th:href="@{/recruiter/profile}"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+            </ul>
+            <div class="navbar-right-candidate">
+                <div class="user-dropdown">
+                    <button class="user-dropdown-btn" id="userDropdownBtn">
+                        <div class="user-avatar">
+                            <img th:if="${profilePhoto != null and !profilePhoto.isEmpty()}" 
+                                 th:src="@{'/uploads/photos/' + ${profilePhoto}}" 
+                                 alt="Profile" 
+                                 class="user-avatar-img">
+                            <i th:unless="${profilePhoto != null and !profilePhoto.isEmpty()}" 
+                               class="fas fa-user-circle"></i>
+                        </div>
+                    </button>
+                    <div class="user-dropdown-menu" id="userDropdownMenu">
+                        <a href="/recruiter/profile" class="dropdown-item">
+                            <i class="fas fa-user-edit"></i>
+                            <span>My Profile</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form th:action="@{/logout}" method="post" style="margin: 0;">
+                            <button type="submit" class="dropdown-item dropdown-logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="content-container">
+    <!-- Dashboard Content -->
+    <div class="dashboard-wrapper-candidate">
+    <div class="dashboard-layout-candidate">
+        <aside class="sidebar-candidate">
+            <a th:href="@{/recruiter/dashboard}" class="brand-logo sidebar-brand">
+                <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo" class="brand-logo-img">
+            </a>
+        </aside>
 
-            <!-- Page Title -->
-            <div class="page-header">
+        <main class="main-content-candidate">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
                 <h1>Recruiter Dashboard</h1>
             </div>
 
-            <!-- Stats Cards -->
-            <div class="stats-section">
-                <div class="stat-card card-purple">
-                    <div class="stat-icon">
-                        <i class="fas fa-briefcase"></i>
+            <!-- Job Listings Box -->
+            <div class="job-listings-container">
+                <div th:if="${jobs != null and !jobs.isEmpty()}">
+                    <!-- Results Counter -->
+                    <div style="padding: 1rem 2.5rem; border-bottom: 1px solid #e5e5e5;">
+                        <span th:if="${totalJobs != null and totalJobs > 0}" style="font-size: 14px; color: #666;">
+                            Showing <span th:text="${(currentPage - 1) * 5 + 1}">1</span>-<span th:text="${(currentPage - 1) * 5 + jobs.size()}">5</span> 
+                            of <span th:text="${totalJobs}">10</span> jobs
+                        </span>
                     </div>
-                    <div class="stat-details">
-                        <div class="stat-number" th:text="${totalJobs}">0</div>
-                        <div class="stat-label">Total Jobs Posted</div>
-                    </div>
-                </div>
-
-                <div class="stat-card card-pink">
-                    <div class="stat-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="stat-details">
-                        <div class="stat-number" th:text="${totalApplications}">0</div>
-                        <div class="stat-label">Total Applications</div>
-                    </div>
-                </div>
-
-                <div class="stat-card card-cyan">
-                    <div class="stat-icon">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <div class="stat-details">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Profile Views</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Jobs Section -->
-            <div class="jobs-section">
-                <div class="section-header">
-                    <h2>Your Posted Jobs</h2>
-                    <a th:href="@{/recruiter/jobs/post}" class="btn-post-job">Post New Job</a>
-                </div>
-
-                <!-- Jobs List -->
-                <div class="jobs-list" th:if="${jobs != null and !jobs.isEmpty()}">
-                    <div class="job-item" th:each="job : ${jobs}">
-                        <div class="job-content">
-                            <div class="job-icon-wrapper">
-                                <i class="fas fa-briefcase"></i>
-                            </div>
-                            <div class="job-info">
-                                <h3 th:text="${job.jobTitle}">Job Title</h3>
-                                <div class="job-metadata">
-                                    <span th:if="${job.jobCompanyId}">
-                                        <i class="fas fa-building"></i>
-                                        <span th:text="${job.jobCompanyId.name}">Company</span>
-                                    </span>
-                                    <span th:if="${job.jobLocationId}">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span
-                                            th:text="${job.jobLocationId.city + ', ' + job.jobLocationId.country}">Location</span>
-                                    </span>
-                                    <span th:if="${job.jobType}">
-                                        <i class="fas fa-clock"></i>
-                                        <span th:text="${job.jobType}">Job Type</span>
-                                    </span>
-                                    <span th:if="${job.postedDate}">
-                                        <i class="fas fa-calendar"></i>
-                                        <span th:text="${#temporals.format(job.postedDate, 'MMM dd, yyyy')}">Date</span>
-                                    </span>
-                                </div>
-                            </div>
+                    
+                    <div th:each="job : ${jobs}" class="job-row"
+                        th:onclick="'window.location.href=\'/recruiter/jobs/' + ${job.jobPostId} + '\''"
+                        style="cursor: pointer;">
+                        <div class="job-title-section">
+                            <span class="job-title" th:text="${job.jobTitle}">Java Developer</span>
+                            <span class="candidates-applied"
+                                th:text="'(' + ${applicationCounts.get(job.jobPostId)} + ' Candidates Applied)'">
+                                (0 Candidates Applied)
+                            </span>
                         </div>
-                        <div class="job-actions">
-                            <a th:href="@{/recruiter/jobs/{id}(id=${job.jobPostId})}"
-                                class="btn-action btn-view">View</a>
-                            <a th:href="@{/recruiter/jobs/{id}/edit(id=${job.jobPostId})}"
-                                class="btn-action btn-edit">Edit</a>
-                            <button class="btn-action btn-delete"
-                                onclick="return confirm('Delete this job?');">Delete</button>
+                        <div class="job-location">
+                            <span
+                                th:text="${job.jobLocationId != null ? (job.jobLocationId.city + ', ' + (job.jobLocationId.state != null ? job.jobLocationId.state : job.jobLocationId.country)) : 'Location N/A'}">
+                                New York, New York
+                            </span>
+                        </div>
+                        <div class="job-company">
+                            <span th:text="${job.jobCompanyId != null ? job.jobCompanyId.name : 'Company N/A'}">
+                                ABC Pvt Limted
+                            </span>
                         </div>
                     </div>
+                    
+                    <!-- Pagination -->
+                    <div th:if="${totalPages != null and totalPages > 1}" class="pagination-container" style="display: flex; justify-content: center; align-items: center; gap: 0.4rem; margin-top: 0; padding: 1.5rem 1rem; background: #fafafa; border-top: 1px solid #e5e5e5;">
+                        <!-- Previous Button -->
+                        <a th:if="${currentPage > 1}" 
+                           th:href="@{/recruiter/dashboard(page=${currentPage - 1})}"
+                           class="pagination-btn" 
+                           style="padding: 0.6rem 1.1rem; background: white; color: #0a2473; border: 1px solid #d1d5db; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"
+                           onmouseover="this.style.background='#f9fafb'; this.style.borderColor='#0a2473'; this.style.boxShadow='0 2px 4px rgba(10,36,115,0.1)';"
+                           onmouseout="this.style.background='white'; this.style.borderColor='#d1d5db'; this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)';">
+                            <i class="fas fa-chevron-left" style="font-size: 12px;"></i>
+                            <span>Previous</span>
+                        </a>
+                        <span th:unless="${currentPage > 1}" 
+                              class="pagination-btn disabled" 
+                              style="padding: 0.6rem 1.1rem; background: #f9fafb; color: #9ca3af; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: not-allowed; display: flex; align-items: center; gap: 0.4rem; opacity: 0.6;">
+                            <i class="fas fa-chevron-left" style="font-size: 12px;"></i>
+                            <span>Previous</span>
+                        </span>
+                        
+                        <!-- Page Numbers -->
+                        <div style="display: flex; gap: 0.3rem; margin: 0 0.5rem;">
+                            <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                               th:href="@{/recruiter/dashboard(page=${pageNum})}"
+                               th:classappend="${pageNum == currentPage} ? 'active' : ''"
+                               class="page-number"
+                               th:attr="data-active=${pageNum == currentPage}"
+                               style="padding: 0.6rem 0.85rem; border-radius: 8px; text-decoration: none !important; font-size: 14px; font-weight: 500; min-width: 2.75rem; text-align: center; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"
+                               th:style="${pageNum == currentPage} ? 'background: linear-gradient(135deg, #0a2473 0%, #1e3a8a 100%); color: white; border: 1px solid #0a2473; box-shadow: 0 2px 6px rgba(10,36,115,0.25); text-decoration: none !important;' : 'background: white; color: #374151; border: 1px solid #d1d5db; text-decoration: none !important;'"
+                               th:onmouseover="${pageNum != currentPage} ? 'this.style.background=\'#f9fafb\'; this.style.borderColor=\'#0a2473\'; this.style.color=\'#0a2473\'; this.style.boxShadow=\'0 2px 4px rgba(10,36,115,0.1)\'; this.style.textDecoration=\'none\';' : ''"
+                               th:onmouseout="${pageNum != currentPage} ? 'this.style.background=\'white\'; this.style.borderColor=\'#d1d5db\'; this.style.color=\'#374151\'; this.style.boxShadow=\'0 1px 2px rgba(0,0,0,0.05)\'; this.style.textDecoration=\'none\';' : ''">
+                                <span th:text="${pageNum}">1</span>
+                            </a>
+                        </div>
+                        
+                        <!-- Next Button -->
+                        <a th:if="${currentPage < totalPages}" 
+                           th:href="@{/recruiter/dashboard(page=${currentPage + 1})}"
+                           class="pagination-btn" 
+                           style="padding: 0.6rem 1.1rem; background: white; color: #0a2473; border: 1px solid #d1d5db; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"
+                           onmouseover="this.style.background='#f9fafb'; this.style.borderColor='#0a2473'; this.style.boxShadow='0 2px 4px rgba(10,36,115,0.1)';"
+                           onmouseout="this.style.background='white'; this.style.borderColor='#d1d5db'; this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)';">
+                            <span>Next</span>
+                            <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        </a>
+                        <span th:unless="${currentPage < totalPages}" 
+                              class="pagination-btn disabled" 
+                              style="padding: 0.6rem 1.1rem; background: #f9fafb; color: #9ca3af; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: not-allowed; display: flex; align-items: center; gap: 0.4rem; opacity: 0.6;">
+                            <span>Next</span>
+                            <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                        </span>
+                    </div>
                 </div>
 
-                <!-- Empty State -->
-                <div class="empty-state" th:if="${jobs == null or jobs.isEmpty()}">
-                    <i class="fas fa-briefcase"></i>
-                    <h3>No Jobs Posted Yet</h3>
-                    <p>Start by posting your first job to attract talented candidates.</p>
-                    <a th:href="@{/recruiter/jobs/post}" class="btn-create">Post Your First Job</a>
+                <div th:if="${jobs == null or jobs.isEmpty()}" class="no-jobs">
+                    <p>You haven't posted any jobs yet.</p>
+                    <a th:href="@{/recruiter/jobs/post}" class="btn-post-job">Post Your First Job</a>
+                </div>
                 </div>
             </div>
-
-        </div>
+        </main>
     </div>
-</body>
+    </div>
 
+    <script>
+        // User dropdown toggle
+        const userDropdownBtn = document.getElementById('userDropdownBtn');
+        const userDropdown = userDropdownBtn?.parentElement;
+        
+        if (userDropdownBtn && userDropdown) {
+            userDropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userDropdown.contains(e.target)) {
+                    userDropdown.classList.remove('active');
+                }
+            });
+        }
+    </script>
+    <script th:src="@{/js/notifications.js}"></script>
+    <script th:src="@{/js/confirm-modal.js}"></script>
+</body>
 </html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - JobSeek</title>
+    <link rel="icon" type="image/png" th:href="@{/img/Logo.png}" href="/img/Logo.png">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/about.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+
+<body class="home-page-new">
+    <!-- Navbar -->
+    <nav class="navbar-modern">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="brand-logo">
+                    <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo"
+                        class="brand-logo-img">
+                </a>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-links" id="navLinks">
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                </div>
+                <div class="nav-buttons" id="navButtons">
+                    <a href="/login" class="btn-nav btn-login">Sign In</a>
+                    <a href="/register" class="btn-nav btn-signup">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="about-hero">
+        <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg" alt="About JobSeek"
+            class="about-hero-bg">
+        <div class="about-hero-overlay">
+            <div class="container">
+                <div class="about-hero-content">
+                    <h1>About</h1>
+                    <h2>JOBSEEK.</h2>
+                    <p class="about-tagline">We connect job seekers, freelancers, and employers. Our platform makes it
+                        easy to find work and hire talent.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Our Purpose</h2>
+            <div class="purpose-grid">
+                <div class="purpose-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="purpose-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Our Vision</h3>
+                    <p>To empower freelancers and businesses by connecting talent with opportunities worldwide.</p>
+                </div>
+                <div class="purpose-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="purpose-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Our Mission</h3>
+                    <p>To provide a seamless platform that fosters collaboration, growth, and success for all users.</p>
+                </div>
+                <div class="purpose-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="purpose-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Core Values</h3>
+                    <p>Integrity, collaboration, excellence, innovation, and customer-centricity guide everything we do.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mentors Section -->
+    <section class="mentors-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Our Mentor</h2>
+            <div class="mentors-simple-grid">
+                <div class="mentor-simple-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="mentor-simple-image">
+                        <img th:src="@{/img/thysothea.jpg}" src="/img/thysothea.jpg" alt="Thy Sothea">
+                    </div>
+                    <p class="mentor-simple-role">Mentor</p>
+                    <h3>Thy Sothea</h3>
+                    <div class="mentor-simple-social">
+                        <a href="https://t.me/sotheathy" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="https://github.com/thysothea" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Members Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Our Team</h2>
+            <div class="team-simple-grid">
+                <div class="team-simple-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-simple-image">
+                        <img th:src="@{/img/lengsaroth.png}" src="/img/lengsaroth.png" alt="John Anderson">
+                    </div>
+                    <p class="team-simple-role">Lead Web</p>
+                    <h3>Leng Saroth</h3>
+                    <div class="team-simple-social">
+                        <a href="https://t.me/lengsaroth" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="https://github.com/it-roth" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="team-simple-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-simple-image">
+                        <img th:src="@{/img/phornrong.jpg}" src="/img/phornrong.jpg" alt="Sarah Mitchell">
+                    </div>
+                    <p class="team-simple-role">Lead Web</p>
+                    <h3>Phorn Rong</h3>
+                    <div class="team-simple-social">
+                        <a href="https://t.me/rongggggg" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="https://github.com/Phorn-Rong" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="team-simple-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="team-simple-image">
+                        <img th:src="@{/img/denrasin.jpg}" src="/img/denrasin.jpg" alt="Michael Chen">
+                    </div>
+                    <p class="team-simple-role">Lead Java</p>
+                    <h3>Den Rasin</h3>
+                    <div class="team-simple-social">
+                        <a href="https://t.me/rasindeveloper" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="https://github.com/Din-Rasin" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="team-simple-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="team-simple-image">
+                        <img th:src="@{/img/keosatyarak.jpg}" src="/img/keosatyarak.jpg" alt="Emily Rodriguez">
+                    </div>
+                    <p class="team-simple-role">Lead Java</p>
+                    <h3>Keo Sathyarak</h3>
+                    <div class="team-simple-social">
+                        <a href="https://t.me/keosathyarak" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="https://github.com/keosathyarak" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievement Section -->
+    <section class="achievement-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Achievement</h2>
+            <div class="achievement-grid">
+                <div class="achievement-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="achievement-number">899</div>
+                    <h4>Total Jobs</h4>
+                </div>
+                <div class="achievement-card" data-aos="flip-left" data-aos-delay="200">
+                    <div class="achievement-number">16.8k</div>
+                    <h4>Seekers</h4>
+                </div>
+                <div class="achievement-card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="achievement-number">261</div>
+                    <h4>Companies</h4>
+                </div>
+                <div class="achievement-card" data-aos="flip-left" data-aos-delay="400">
+                    <div class="achievement-number">378</div>
+                    <h4>Employers</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-works-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">How It Works</h2>
+            <div class="how-works-grid">
+                <div class="how-works-card" data-aos="fade-right" data-aos-delay="100">
+                    <div class="how-works-number">1</div>
+                    <h3>Freelancers Create Profiles</h3>
+                    <p>Freelancers create profiles and post their services to showcase their skills and expertise.</p>
+                </div>
+                <div class="how-works-card" data-aos="fade-right" data-aos-delay="200">
+                    <div class="how-works-number">2</div>
+                    <h3>Business Owners Post Jobs</h3>
+                    <p>Business owners post job listings to find the perfect freelancers for their projects.</p>
+                </div>
+                <div class="how-works-card" data-aos="fade-right" data-aos-delay="300">
+                    <div class="how-works-number">3</div>
+                    <h3>Connect & Collaborate</h3>
+                    <p>Both parties connect, negotiate, and collaborate to bring projects to life successfully.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer-modern" id="contact">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek Logo" class="footer-logo">
+                    <p class="footer-description">JobSeek is created by BELTEI Student for Job Matching Service Specialized in IT</p>
+                </div>
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h3>QUICK LINE</h3>
+                        <ul>
+                            <li><a href="/login">Find Jobs</a></li>
+                            <li><a href="/register">Find Freelancers</a></li>
+                            <li><a href="/register">Post a Job</a></li>
+                            <li><a href="/login">Dashboard</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>SUPPORT & LEGAL</h3>
+                        <ul>
+                            <li><a href="/contact">Chat Bot Help</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Policy Privacy</a></li>
+                            <li><a href="#">Term of Service</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>OUR SPONSORS</h3>
+                        <div class="footer-sponsor">
+                            <img th:src="@{/img/BIU2.png}" src="/img/BIU2.png" alt="ISTAD" class="sponsor-logo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="#" class="privacy-link">Privacy Policy</a>
+                <p>&copy; 2026 JobSeek Inc. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script th:src="@{/js/main.js}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+    </script>
+</body>
+
+</html>

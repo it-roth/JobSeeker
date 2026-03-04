@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Job Details</title>
+    <link rel="icon" type="image/png" th:href="@{/img/Logo.png}" href="/img/Logo.png">
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/notifications.css}">
+    <style>
+        body { margin: 0; padding: 0; overflow-x: hidden; }
+        .job-details-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .applicant-link:hover {
+            background: #0a2647 !important;
+            color: white !important;
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+
+<body th:object="${jobDetails}">
+    <!-- Navbar -->
+    <nav class="navbar-candidate">
+        <div class="container-nav">
+      
+            <ul class="navbar-nav-candidate" sec:authorize="hasRole('JobSeeker')">
+                <li><a href="/jobseeker/jobs"><i class="fas fa-search"></i> Search for Jobs</a></li>
+                <li><a href="/jobseeker/saved-jobs"><i class="fas fa-briefcase"></i> My Jobs</a></li>
+                <li><a href="/jobseeker/profile"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+            </ul>
+            <div class="navbar-right-candidate">
+                <div class="user-dropdown">
+                    <button class="user-dropdown-btn" id="userDropdownBtn">
+                        <div class="user-avatar">
+                            <img th:if="${profilePhoto != null and !profilePhoto.isEmpty()}" 
+                                 th:src="@{'/uploads/photos/' + ${profilePhoto}}" 
+                                 alt="Profile" 
+                                 class="user-avatar-img">
+                            <i th:unless="${profilePhoto != null and !profilePhoto.isEmpty()}" 
+                               class="fas fa-user-circle"></i>
+                        </div>
+                    </button>
+                    <div class="user-dropdown-menu" id="userDropdownMenu">
+                        <a href="/jobseeker/profile" class="dropdown-item">
+                            <i class="fas fa-user-edit"></i>
+                            <span>My Profile</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form th:action="@{/logout}" method="post" style="margin: 0;">
+                            <button type="submit" class="dropdown-item dropdown-logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content (with left sidebar) -->
+    <div class="dashboard-wrapper-candidate">
+    <div class="dashboard-layout-candidate">
+            <aside class="sidebar-candidate">
+            <a href="/jobseeker/dashboard" class="brand-logo sidebar-brand">
+                <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo" class="brand-logo-img">
+            </a>
+            <h4 class="filter-title-candidate">FILTER RESULTS</h4>
+            <div class="filter-section-candidate">
+                <h5>Employment Type</h5>
+                <label><input type="checkbox" name="employment" value="parttime"> Part-Time</label>
+                <label><input type="checkbox" name="employment" value="fulltime"> Full-Time</label>
+                <label><input type="checkbox" name="employment" value="freelance"> Freelance</label>
+            </div>
+            <div class="filter-section-candidate">
+                <h5>Remote</h5>
+                <label><input type="checkbox" name="remote" value="remote-only"> Remote-Only</label>
+                <label><input type="checkbox" name="remote" value="office-only"> Office-Only</label>
+                <label><input type="checkbox" name="remote" value="partial-remote"> Partial-Remote</label>
+            </div>
+            <div class="filter-section-candidate">
+                <h5>Date Posted</h5>
+                <label><input type="checkbox" name="datePosted" value="today"> Today</label>
+                <label><input type="checkbox" name="datePosted" value="week"> Last 7 Days</label>
+                <label><input type="checkbox" name="datePosted" value="month"> Last 30 Days</label>
+            </div>
+            <button type="button" id="clearFiltersBtn" class="clear-filters-btn" style="margin-top: 1.5rem; width: 100%; padding: 0.75rem; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 6px; color: #374151; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                Clear All Filters
+            </button>
+        </aside>
+
+        <main class="main-content-candidate">
+            <!-- Back to Dashboard Button -->
+            <div style="margin-bottom: 1.25rem;">
+                <a href="/jobseeker/jobs" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.625rem 1.25rem; background: white; color: #0a2473; border: 1px solid #d1d5db; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onmouseover="this.style.background='#f9fafb'; this.style.borderColor='#0a2473'; this.style.boxShadow='0 2px 4px rgba(10,36,115,0.1)';" onmouseout="this.style.background='white'; this.style.borderColor='#d1d5db'; this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)';">
+                    <i class="fas fa-arrow-left" style="font-size: 12px;"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
+
+            <!-- Job Details Header -->
+            <div style="background: linear-gradient(135deg, #0a2473 0%, #1e3a8a 100%); border-radius: 10px; padding: 1.5rem 1.25rem; margin-bottom: 1.25rem; box-shadow: 0 4px 12px rgba(10,36,115,0.15);">
+                <h1 style="font-size: 20px; font-weight: 700; color: white; margin-bottom: 0.75rem;" th:text="${jobDetails.jobTitle}">Software Engineer</h1>
+                <div style="display: flex; gap: 1.5rem; margin-bottom: 0; flex-wrap: wrap;">
+                    <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 14px; display: flex; align-items: center;">
+                        <i class="fas fa-map-marker-alt" style="color: #fbbf24; margin-right: 0.5rem; font-size: 14px;"></i>
+                        <span th:text="${jobDetails.jobLocationId.city + ', ' + jobDetails.jobLocationId.state}">California, USA</span>
+                    </p>
+                    <p style="margin: 0; color: rgba(255,255,255,0.95); font-size: 14px; display: flex; align-items: center;">
+                        <i class="fas fa-building" style="color: #fbbf24; margin-right: 0.5rem; font-size: 14px;"></i>
+                        <span th:text="${jobDetails.jobCompanyId.name}">Company</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Job Specs Card -->
+            <div style="background: white; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e5e7eb;">
+                <h3 style="font-size: 18px; font-weight: 600; color: #0a2473; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-info-circle" style="color: #0a2473; font-size: 18px;"></i>
+                    Job Specs
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+                    <div style="background: #f9fafb; padding: 0.875rem; border-radius: 8px; border-left: 3px solid #0a2473;">
+                        <label style="font-weight: 600; color: #0a2473; display: flex; align-items: center; gap: 0.375rem; margin-bottom: 0.375rem; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            <i class="fas fa-calendar" style="font-size: 12px;"></i>
+                            Date Posted
+                        </label>
+                        <span th:text="${jobDetails.postedDate}" style="color: #1f2937; font-size: 14px; font-weight: 500;">12 Nov, 2030</span>
+                    </div>
+                    <div style="background: #f9fafb; padding: 0.875rem; border-radius: 8px; border-left: 3px solid #10b981;">
+                        <label style="font-weight: 600; color: #10b981; display: flex; align-items: center; gap: 0.375rem; margin-bottom: 0.375rem; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            <i class="fas fa-dollar-sign" style="font-size: 12px;"></i>
+                            Salary
+                        </label>
+                        <span th:text="${jobDetails.salary}" style="color: #1f2937; font-size: 14px; font-weight: 500;">50k - 120k/y</span>
+                    </div>
+                    <div style="background: #f9fafb; padding: 0.875rem; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                        <label style="font-weight: 600; color: #f59e0b; display: flex; align-items: center; gap: 0.375rem; margin-bottom: 0.375rem; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            <i class="fas fa-briefcase" style="font-size: 12px;"></i>
+                            Type
+                        </label>
+                        <span th:text="${jobDetails.jobType}" style="color: #1f2937; font-size: 14px; font-weight: 500;">Full-time</span>
+                    </div>
+                    <div style="background: #f9fafb; padding: 0.875rem; border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                        <label style="font-weight: 600; color: #8b5cf6; display: flex; align-items: center; gap: 0.375rem; margin-bottom: 0.375rem; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            <i class="fas fa-laptop-house" style="font-size: 12px;"></i>
+                            Remote
+                        </label>
+                        <span th:text="${jobDetails.remote}" style="color: #1f2937; font-size: 14px; font-weight: 500;">Remote</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Description Card -->
+            <div style="background: white; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e5e7eb;">
+                <h3 style="font-size: 18px; font-weight: 600; color: #0a2473; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; padding-bottom: 0.625rem; border-bottom: 2px solid #e5e7eb;">
+                    <i class="fas fa-file-alt" style="color: #0a2473; font-size: 18px;"></i>
+                    Job Description
+                </h3>
+                <div th:utext="${jobDetails.descriptionOfJob}" style="color: #374151; line-height: 1.7; font-size: 14px; background: #f9fafb; padding: 1.25rem; border-radius: 8px; border-left: 4px solid #0a2473;"></div>
+            </div>
+
+            <!-- Action Buttons for Job Seekers -->
+            <div sec:authorize="hasRole('JobSeeker')" style="background: white; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e5e7eb;">
+                <h3 style="font-size: 18px; font-weight: 600; color: #0a2473; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-hand-pointer" style="color: #0a2473; font-size: 18px;"></i>
+                    Take Action
+                </h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <form th:action="@{/job-apply/{id}(id=${jobDetails.jobPostId})}" th:object="${applyJob}" method="post" style="flex: 1; min-width: 180px;">
+                        <button type="submit" th:if="${alreadyApplied == false}" class="job-details-btn" style="width: 100%; padding: 0.75rem 1.25rem; background: linear-gradient(135deg, #ff4d3d 0%, #f73a28 100%); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 6px rgba(255,77,61,0.3);">
+                            <i class="fas fa-paper-plane" style="margin-right: 0.5rem; font-size: 14px;"></i>Apply Now
+                        </button>
+                        <button type="button" disabled th:if="${alreadyApplied == true}" style="width: 100%; padding: 0.75rem 1.25rem; background: #e5e7eb; color: #9ca3af; border: 1px solid #d1d5db; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: not-allowed; opacity: 0.7;">
+                            <i class="fas fa-check-circle" style="margin-right: 0.5rem; font-size: 14px;"></i>Already Applied
+                        </button>
+                    </form>
+                    <form th:action="@{/job-save/{id}(id=${jobDetails.jobPostId})}" th:object="${applyJob}" method="post" style="flex: 1; min-width: 180px;">
+                        <button type="submit" th:if="${alreadySaved == false}" class="job-details-btn" style="width: 100%; padding: 0.75rem 1.25rem; background: linear-gradient(135deg, #0a2473 0%, #1e3a8a 100%); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 6px rgba(10,36,115,0.3);">
+                            <i class="fas fa-bookmark" style="margin-right: 0.5rem; font-size: 14px;"></i>Save Job
+                        </button>
+                        <button type="button" disabled th:if="${alreadySaved == true}" style="width: 100%; padding: 0.75rem 1.25rem; background: #e5e7eb; color: #9ca3af; border: 1px solid #d1d5db; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: not-allowed; opacity: 0.7;">
+                            <i class="fas fa-bookmark" style="margin-right: 0.5rem; font-size: 14px;"></i>Already Saved
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    </div>
+    <script th:src="@{/js/main.js}"></script>
+    <script>
+        // User dropdown toggle
+        const userDropdownBtn = document.getElementById('userDropdownBtn');
+        const userDropdown = userDropdownBtn?.parentElement;
+        
+        if (userDropdownBtn && userDropdown) {
+            userDropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userDropdown.contains(e.target)) {
+                    userDropdown.classList.remove('active');
+                }
+            });
+        }
+    </script>
+    <script th:src="@{/js/notifications.js}"></script>

@@ -50,7 +50,7 @@ public class JobSeekerSaveController {
             }
         }
         
-        return "redirect:/job-post/" + jobId + "?saved=true";
+        return "redirect:/jobseeker/jobs/" + jobId + "?saved=true";
     }
     
     @GetMapping("/my-saved-jobs")

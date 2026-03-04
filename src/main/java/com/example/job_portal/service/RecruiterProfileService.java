@@ -14,6 +14,25 @@ public class RecruiterProfileService {
     private RecruiterProfileRepository recruiterProfileRepository;
     
     public RecruiterProfile saveRecruiterProfile(RecruiterProfile recruiterProfile) {
+        // Check if profile exists
+        if (recruiterProfile.getUserAccountId() != null) {
+            Optional<RecruiterProfile> existing = recruiterProfileRepository.findById(recruiterProfile.getUserAccountId());
+            if (existing.isPresent()) {
+                // Update existing profile
+                RecruiterProfile existingProfile = existing.get();
+                existingProfile.setFirstName(recruiterProfile.getFirstName());
+                existingProfile.setLastName(recruiterProfile.getLastName());
+                existingProfile.setCity(recruiterProfile.getCity());
+                existingProfile.setState(recruiterProfile.getState());
+                existingProfile.setCountry(recruiterProfile.getCountry());
+                existingProfile.setCompany(recruiterProfile.getCompany());
+                if (recruiterProfile.getProfilePhoto() != null) {
+                    existingProfile.setProfilePhoto(recruiterProfile.getProfilePhoto());
+                }
+                return recruiterProfileRepository.save(existingProfile);
+            }
+        }
+        // Insert new profile
         return recruiterProfileRepository.save(recruiterProfile);
     }
     

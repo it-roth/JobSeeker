@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class RecruiterProfile {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_account_id")
     private Integer userAccountId;
     

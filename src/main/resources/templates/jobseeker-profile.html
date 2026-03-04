@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Candidate - Set up your Profile</title>
+    <link rel="icon" type="image/png" th:href="@{/img/Logo.png}" href="/img/Logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/profile.css}">
 
@@ -13,6 +14,9 @@
 <body>
     <div class="profile-page">
         <div class="profile-form">
+            <a th:href="@{/jobseeker/dashboard}" class="back-link">
+                <i class="fas fa-angle-left"></i> Back to Dashboard
+            </a>
             <div class="profile-title">
                 <div class="icon-circle">
                     <i class="fas fa-user"></i>

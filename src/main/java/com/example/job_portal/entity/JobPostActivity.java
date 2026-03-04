@@ -23,11 +23,11 @@ public class JobPostActivity {
     @JoinColumn(name = "posted_by_id", referencedColumnName = "user_account_id")
     private RecruiterProfile postedById;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "job_location_id", referencedColumnName = "id")
     private JobLocation jobLocationId;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "job_company_id", referencedColumnName = "id")
     private JobCompany jobCompanyId;
     

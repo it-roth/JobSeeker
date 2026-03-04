@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobSeek - We Work To Ensure Your Career Success</title>
+    <link rel="icon" type="image/png" th:href="@{/img/Logo.png}" href="/img/Logo.png">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/slider.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 </head>
 <body class="home-page-new">
     <!-- Navbar -->
@@ -16,12 +18,17 @@
                 <a href="/" class="brand-logo">
                     <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo" class="brand-logo-img">
                 </a>
-                <div class="nav-links">
-                    <a href="#services">Services</a>
-                    <a href="#jobs">Jobs</a>
-                    <a href="#about">About</a>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-links" id="navLinks">
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
                 </div>
-                <div class="nav-buttons">
+                <div class="nav-buttons" id="navButtons">
                     <a href="/login" class="btn-nav btn-login">Sign In</a>
                     <a href="/register" class="btn-nav btn-signup">Sign Up</a>
                 </div>
@@ -73,84 +80,86 @@
     <!-- Services Section -->
     <section class="services-section" id="services">
         <div class="container">
-            <h2 class="section-title">For Job Seekers Services</h2>
-            <p class="section-subtitle">Explore job opportunities</p>
+            <h2 class="section-title" data-aos="fade-up">For Job Seekers Services</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Explore job opportunities and career growth paths</p>
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="150">
                     <div class="service-icon">
                         <i class="fas fa-laptop-code"></i>
                     </div>
                     <h3>Freelancer</h3>
-                    <p>Find freelance opportunities and work on your own terms with flexible projects</p>
-                    <a href="/register" class="service-link">Learn More →</a>
+                    <p>Find freelance opportunities and work on your own terms with flexible projects tailored to your skills</p>
+                    <a href="/register" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="250">
                     <div class="service-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
                     <h3>Business Owner</h3>
-                    <p>Connect with top talent to grow your business and scale your operations</p>
-                    <a href="/register" class="service-link">Learn More →</a>
+                    <p>Connect with top talent to grow your business and scale your operations with the right professionals</p>
+                    <a href="/register" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="350">
                     <div class="service-icon">
                         <i class="fas fa-user-tie"></i>
                     </div>
                     <h3>Job Seeker</h3>
-                    <p>Discover your dream job from thousands of opportunities tailored for you</p>
-                    <a href="/login" class="service-link">Learn More →</a>
+                    <p>Discover your dream job from thousands of opportunities tailored for your skills and career goals</p>
+                    <a href="/login" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Why Join Us Section -->
-    <section class="why-join-section">
+    <!-- About Section -->
+    <section class="about-section" id="about">
         <div class="container">
-            <h2 class="section-title">Why Join Us?</h2>
-            <p class="section-subtitle">Discover the benefits of joining our platform</p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-check-circle"></i>
+            <div class="about-content">
+                <div class="about-text" data-aos="fade-right">
+                    <h2>About JobSeek Platform</h2>
+                    <p>We are a leading job matching service specialized in IT and technology careers. Our mission is to connect talented professionals with companies that value innovation and growth.</p>
+                    <p>Since our establishment, we've successfully helped thousands of job seekers find their dream careers while enabling companies to build exceptional teams. Our platform uses advanced matching algorithms to ensure the best fit between candidates and employers.</p>
+                    <div class="about-features">
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>10,000+ Users</h4>
+                                <p>Active job seekers and recruiters</p>
+                            </div>
+                        </div>
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="feature-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>500+ Companies</h4>
+                                <p>Top employers trust our platform</p>
+                            </div>
+                        </div>
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+                            <div class="feature-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>95% Success Rate</h4>
+                                <p>Successful job placements</p>
+                            </div>
+                        </div>
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+                            <div class="feature-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Industry Leading</h4>
+                                <p>Award-winning recruitment platform</p>
+                            </div>
+                        </div>
                     </div>
-                    <h3>All-in-One Solution</h3>
-                    <p>Find jobs, freelance gigs, or top talent in one seamless platform</p>
                 </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Secure & Trusted</h3>
-                    <p>End-to-end encryption and verified users ensure safe communication</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Personalized Dashboard</h3>
-                    <p>Track your applications and manage your career journey efficiently</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h3>Verified Reviews</h3>
-                    <p>Build trust with authentic ratings and reviews for informed decisions</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Fast Hiring Process</h3>
-                    <p>From posting jobs to hiring, we streamline the process to save time</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3>24/7 Support</h3>
-                    <p>Our dedicated team is always ready to help you succeed</p>
+                <div class="about-image" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80" alt="Team collaboration">
                 </div>
             </div>
         </div>
@@ -161,7 +170,7 @@
         <div class="container">
             <div class="stats-grid">
                 <div class="stats-left">
-                    <h2 class="section-title">opportunitiesCurated</h2>
+                    <h2 class="section-title">Opportunities <span class="highlight-text">Curated</span></h2>
                 </div>
 
                 <div class="stats-divider" aria-hidden="true"></div>
@@ -189,52 +198,43 @@
     <!-- Popular Jobs Section -->
     <section class="jobs-section" id="jobs">
         <div class="container">
-            <h2 class="section-title">Most Popular Jobs</h2>
-            <p class="section-subtitle">Discover job opportunities with top companies</p>
+            <h2 class="section-title" data-aos="fade-up">Featured Job Opportunities</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Discover exciting career opportunities with top companies</p>
             <div class="jobs-grid">
-                <div class="job-card">
+                <div class="job-card" data-aos="fade-up" data-aos-delay="150">
                     <div class="job-header">
-                        <img src="https://metro.org/sites/default/files/inline-images/DSC_6289.JPG" alt="Company">
-                        <div class="job-meta">
-                            <span class="job-date">2025-02-21</span>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80" alt="Software Development">
                     </div>
                     <div class="job-body">
                         <div class="job-category">Software Development</div>
                         <h3>Full-Stack Developer</h3>
                         <p class="job-company">Tech Innovators Inc.</p>
                         <p>A leading software company specializing in AI-driven applications</p>
-                        <a href="/login" class="job-link">LEARN MORE</a>
+                        <a href="/login" class="job-link">LEARN MORE <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                <div class="job-card">
+                <div class="job-card" data-aos="fade-up" data-aos-delay="250">
                     <div class="job-header">
-                        <img src="https://images.agoramedia.com/wte3.0/gcms/job-hunting-while-pregnant-2021-722x406.jpg" alt="Company">
-                        <div class="job-meta">
-                            <span class="job-date">2025-02-20</span>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80" alt="Cloud Computing">
                     </div>
                     <div class="job-body">
                         <div class="job-category">Cloud Computing</div>
                         <h3>Cloud Engineer</h3>
                         <p class="job-company">Cloud Solutions Ltd.</p>
                         <p>Providing top-tier cloud solutions for enterprises worldwide</p>
-                        <a href="/login" class="job-link">LEARN MORE</a>
+                        <a href="/login" class="job-link">LEARN MORE <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                <div class="job-card">
+                <div class="job-card" data-aos="fade-up" data-aos-delay="350">
                     <div class="job-header">
-                        <img src="https://www.sydney.edu.au/content/dam/people/students/icpu-students-in-a-brainstorming-session.jpg" alt="Company">
-                        <div class="job-meta">
-                            <span class="job-date">2025-02-19</span>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80" alt="Cybersecurity">
                     </div>
                     <div class="job-body">
                         <div class="job-category">Cybersecurity</div>
                         <h3>Security Analyst</h3>
                         <p class="job-company">CyberSecure Inc.</p>
                         <p>Enhancing cybersecurity for businesses with innovative security solutions</p>
-                        <a href="/login" class="job-link">LEARN MORE</a>
+                        <a href="/login" class="job-link">LEARN MORE <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -244,57 +244,145 @@
     <!-- Testimonials Section -->
     <section class="testimonials-section">
         <div class="container">
-            <h2 class="section-title">Clients Feedback</h2>
-            <p class="section-subtitle">Discover the benefits of joining our platform</p>
-            <div class="testimonials-slider">
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="testimonial-text">"JobSeek has transformed the way I find freelancers for my projects. The user-friendly interface made it easy to post my job requirements, and I was amazed at the quality of candidates who applied."</p>
-                    <div class="testimonial-author">
-                        <img src="https://www.job-seek.works/assets/dara-CN0GJ6VE.jpg" alt="Author">
-                        <div>
-                            <h4>Kong Sisovandara</h4>
-                            <p>Lead Frontend Developer</p>
+            <h2 class="section-title" data-aos="fade-up">What Our Clients Say</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Read testimonials from satisfied job seekers and employers</p>
+            <div class="testimonials-carousel-wrapper">
+                <div class="testimonials-slider">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"JobSeek has transformed the way I find freelancers for my projects. The user-friendly interface made it easy to post my job requirements, and I was amazed at the quality of candidates who applied."</p>
+                        <div class="testimonial-author">
+                            <img th:src="@{/img/lengsaroth.png}" src="/img/lengsaroth.png" alt="Leng Saroth">
+                            <div>
+                                <h4>Leng Saroth</h4>
+                                <p>Software Engineer</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="testimonial-text">"The variety of jobs available and the straightforward application process make it easy for me to showcase my skills. I landed a fantastic project through easyJobs, and the support team was incredibly helpful!"</p>
-                    <div class="testimonial-author">
-                        <img src="https://www.job-seek.works/assets/theara-Cz4rQCKI.jpg" alt="Author">
-                        <div>
-                            <h4>Chim Theara</h4>
-                            <p>Lead Designer</p>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The variety of jobs available and the straightforward application process make it easy for me to showcase my skills. I landed a fantastic project through JobSeek, and the support team was incredibly helpful!"</p>
+                        <div class="testimonial-author">
+                            <img th:src="@{/img/phornrong.jpg}" src="/img/phornrong.jpg" alt="Phorn Rong">
+                            <div>
+                                <h4>Phorn Rong</h4>
+                                <p>Full-Stack Developer</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The site is well-designed, making it easy to browse freelancers based on their skills and ratings. I was able to find a web developer who understood my vision perfectly. This platform has truly helped me grow!"</p>
+                        <div class="testimonial-author">
+                            <img th:src="@{/img/denrasin.jpg}" src="/img/denrasin.jpg" alt="Den Rasin">
+                            <div>
+                                <h4>Den Rasin</h4>
+                                <p>UX/UI Designer</p>
+                            </div>
+                        </div>
                     </div>
-                    <p class="testimonial-text">"The site is well-designed, making it easy to browse freelancers based on their skills and ratings. I was able to find a web developer who understood my vision perfectly. This platform has truly helped me grow!"</p>
-                    <div class="testimonial-author">
-                        <img src="https://www.job-seek.works/assets/sanom-DLFQJSsa.jpg" alt="Author">
-                        <div>
-                            <h4>Rin Sanom</h4>
-                            <p>Web Developer</p>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"I've been using JobSeek for over a year now, and it has completely streamlined my hiring process. The quality of candidates is exceptional, and the platform makes it easy to manage applications and communicate with potential hires."</p>
+                        <div class="testimonial-author">
+                            <img th:src="@{/img/keosatyarak.jpg}" src="/img/keosatyarak.jpg" alt="Keo Satyarak">
+                            <div>
+                                <h4>Keo Satyarak</h4>
+                                <p>Project Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Duplicate for seamless loop -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"JobSeek has transformed the way I find freelancers for my projects. The user-friendly interface made it easy to post my job requirements, and I was amazed at the quality of candidates who applied."</p>
+                        <div class="testimonial-author">
+                            <img th:src="@{/img/lengsaroth.png}" src="/img/lengsaroth.png" alt="Leng Saroth">
+                            <div>
+                                <h4>Leng Saroth</h4>
+                                <p>Software Engineer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The variety of jobs available and the straightforward application process make it easy for me to showcase my skills. I landed a fantastic project through JobSeek, and the support team was incredibly helpful!"</p>
+                        <div class="testimonial-author">
+                            <img th:src="@{/img/phornrong.jpg}" src="/img/phornrong.jpg" alt="Phorn Rong">
+                            <div>
+                                <h4>Phorn Rong</h4>
+                                <p>Full-Stack Developer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The site is well-designed, making it easy to browse freelancers based on their skills and ratings. I was able to find a web developer who understood my vision perfectly. This platform has truly helped me grow!"</p>
+                        <div class="testimonial-author">
+                            <img th:src="@{/img/denrasin.jpg}" src="/img/denrasin.jpg" alt="Den Rasin">
+                            <div>
+                                <h4>Den Rasin</h4>
+                                <p>UX/UI Designer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"I've been using JobSeek for over a year now, and it has completely streamlined my hiring process. The quality of candidates is exceptional, and the platform makes it easy to manage applications and communicate with potential hires."</p>
+                        <div class="testimonial-author">
+                            <img th:src="@{/img/keosatyarak.jpg}" src="/img/keosatyarak.jpg" alt="Keo Satyarak">
+                            <div>
+                                <h4>Keo Satyarak</h4>
+                                <p>Project Manager</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -305,38 +393,57 @@
     <!-- Footer -->
     <footer class="footer-modern" id="contact">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>QUICK LINKS</h3>
-                    <ul>
-                        <li><a href="/login">Find Jobs</a></li>
-                        <li><a href="/register">Post a Job</a></li>
-                        <li><a href="/login">Dashboard</a></li>
-                        <li><a href="/register">Join as Business</a></li>
-                    </ul>
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek Logo" class="footer-logo">
+                    <p class="footer-description">JobSeek is created by BELTEI Student for Job Matching Service Specialized in IT</p>
                 </div>
-                <div class="footer-col">
-                    <h3>SUPPORT & LEGAL</h3>
-                    <ul>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>ABOUT US</h3>
-                    <p>easyJobs is created for Job Matching Service Specialized in IT. We are dedicated to connecting talent with opportunities.</p>
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h3>QUICK LINE</h3>
+                        <ul>
+                            <li><a href="/login">Find Jobs</a></li>
+                            <li><a href="/register">Find Freelancers</a></li>
+                            <li><a href="/register">Post a Job</a></li>
+                            <li><a href="/login">Dashboard</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>SUPPORT & LEGAL</h3>
+                        <ul>
+                            <li><a href="/contact">Chat Bot Help</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Policy Privacy</a></li>
+                            <li><a href="#">Term of Service</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>OUR SPONSORS</h3>
+                        <div class="footer-sponsor">
+                            <img th:src="@{/img/BIU2.png}" src="/img/BIU2.png" alt="ISTAD" class="sponsor-logo">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 easyJobs.com Inc. All Rights Reserved.</p>
+                <a href="#" class="privacy-link">Privacy Policy</a>
+                <p>&copy; 2026 JobSeek Inc. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- JavaScript -->
+    <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/slider.js}"></script>
     <script th:src="@{/js/stats.js}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+    </script>
 </body>
 </html>

@@ -13,6 +13,16 @@ public class HomeController {
         return "index";
     }
     
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
+    
+    @GetMapping("/contact")
+    public String contact() {
+        return "contact";
+    }
+    
     @GetMapping("/dashboard")
     public String dashboard(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {

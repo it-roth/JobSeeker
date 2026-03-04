@@ -3,10 +3,12 @@ package com.example.job_portal.controller;
 import com.example.job_portal.entity.JobPostActivity;
 import com.example.job_portal.entity.JobSeekerApply;
 import com.example.job_portal.entity.JobSeekerProfile;
+import com.example.job_portal.entity.JobSeekerSave;
 import com.example.job_portal.entity.Users;
 import com.example.job_portal.service.JobPostActivityService;
 import com.example.job_portal.service.JobSeekerApplyService;
 import com.example.job_portal.service.JobSeekerProfileService;
+import com.example.job_portal.service.JobSeekerSaveService;
 import com.example.job_portal.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
@@ -44,34 +46,13 @@ public class JobSeekerProfileController {
     @Autowired
     private JobSeekerApplyService jobSeekerApplyService;
     
+    @Autowired
+    private JobSeekerSaveService jobSeekerSaveService;
+    
     @GetMapping("/dashboard")
     public String jobSeekerDashboard(Authentication authentication, Model model) {
-        String email = authentication.getName();
-        Optional<Users> user = usersService.findByEmail(email);
-        
-        if (user.isPresent()) {
-            // expose the user's email from DB to the view
-            model.addAttribute("userEmail", user.get().getEmail());
-
-            Optional<JobSeekerProfile> jobSeekerProfile = jobSeekerProfileService.getJobSeekerProfileById(user.get().getUserId());
-            
-            if (jobSeekerProfile.isPresent()) {
-                model.addAttribute("profile", jobSeekerProfile.get());
-                model.addAttribute("appliedJobs", jobSeekerApplyService.getApplicationsByJobSeekerId(jobSeekerProfile.get().getUserAccountId()));
-                model.addAttribute("allJobs", jobPostActivityService.getAllJobPosts());
-                model.addAttribute("totalApplications", jobSeekerApplyService.getApplicationsByJobSeekerId(jobSeekerProfile.get().getUserAccountId()).size());
-            } else {
-                // No profile yet, create empty profile and show dashboard anyway
-                JobSeekerProfile emptyProfile = new JobSeekerProfile();
-                emptyProfile.setFirstName("Guest");
-                model.addAttribute("profile", emptyProfile);
-                model.addAttribute("appliedJobs", List.of());
-                model.addAttribute("allJobs", jobPostActivityService.getAllJobPosts());
-                model.addAttribute("totalApplications", 0);
-            }
-        }
-        
-        return "jobseeker-dashboard";
+        // Redirect to jobs page by default
+        return "redirect:/jobseeker/jobs";
     }
     
     @GetMapping("/profile")
@@ -176,7 +157,7 @@ public class JobSeekerProfileController {
             jobSeekerProfileService.saveJobSeekerProfile(profileToSave);
         }
         
-        return "redirect:/jobseeker/dashboard";
+        return "redirect:/jobseeker/dashboard?profile-updated=true";
     }
     
     /**
@@ -209,7 +190,22 @@ public class JobSeekerProfileController {
     @GetMapping("/jobs")
     public String searchJobs(@RequestParam(required = false) String search,
                             @RequestParam(required = false) String location,
+                            @RequestParam(defaultValue = "1") int page,
+                            Authentication authentication,
                             Model model) {
+        // Add user email to model
+        String email = authentication.getName();
+        Optional<Users> user = usersService.findByEmail(email);
+        if (user.isPresent()) {
+            model.addAttribute("userEmail", user.get().getEmail());
+            
+            // Add profile photo to model
+            Optional<JobSeekerProfile> profile = jobSeekerProfileService.getJobSeekerProfileById(user.get().getUserId());
+            if (profile.isPresent() && profile.get().getProfilePhoto() != null) {
+                model.addAttribute("profilePhoto", profile.get().getProfilePhoto());
+            }
+        }
+        
         List<JobPostActivity> allJobs = jobPostActivityService.getAllJobPosts();
         
         // Filter jobs if search parameters are provided
@@ -228,17 +224,77 @@ public class JobSeekerProfileController {
                 .collect(Collectors.toList());
         }
         
-        model.addAttribute("jobPosts", allJobs);
-        return "jobseeker-jobs";
+        // Pagination logic
+        int pageSize = 5;
+        int totalJobs = allJobs.size();
+        int totalPages = (int) Math.ceil((double) totalJobs / pageSize);
+        
+        // Ensure page is within bounds
+        if (page < 1) page = 1;
+        if (page > totalPages && totalPages > 0) page = totalPages;
+        
+        // Get jobs for current page
+        int startIndex = (page - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, totalJobs);
+        List<JobPostActivity> jobsForPage = allJobs.subList(startIndex, endIndex);
+        
+        model.addAttribute("jobPosts", jobsForPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalJobs", totalJobs);
+        model.addAttribute("search", search);
+        model.addAttribute("location", location);
+        
+        return "jobseeker-dashboard";
     }
     
     @GetMapping("/jobs/{id}")
-    public String viewJob(@PathVariable Integer id, Model model) {
+    public String viewJob(@PathVariable Integer id, Authentication authentication, Model model) {
+        // Add user information
+        String email = authentication.getName();
+        Optional<Users> user = usersService.findByEmail(email);
+        if (user.isPresent()) {
+            Optional<JobSeekerProfile> profile = jobSeekerProfileService.getJobSeekerProfileById(user.get().getUserId());
+            if (profile.isPresent()) {
+                model.addAttribute("user", profile.get());
+                
+                // Add profile photo to model
+                if (profile.get().getProfilePhoto() != null) {
+                    model.addAttribute("profilePhoto", profile.get().getProfilePhoto());
+                }
+            } else {
+                // Create empty profile to avoid null errors
+                JobSeekerProfile emptyProfile = new JobSeekerProfile();
+                emptyProfile.setFirstName("User");
+                model.addAttribute("user", emptyProfile);
+            }
+        }
+        
+        // Add job details
         Optional<JobPostActivity> job = jobPostActivityService.getJobPostById(id);
         if (job.isPresent()) {
-            model.addAttribute("job", job.get());
+            model.addAttribute("jobDetails", job.get());
+            
+            // Check if already applied
+            if (user.isPresent()) {
+                Optional<JobSeekerProfile> profile = jobSeekerProfileService.getJobSeekerProfileById(user.get().getUserId());
+                if (profile.isPresent()) {
+                    List<JobSeekerApply> applications = jobSeekerApplyService.getApplicationsByJobSeekerId(profile.get().getUserAccountId());
+                    boolean alreadyApplied = applications.stream()
+                        .anyMatch(app -> app.getJob().getJobPostId().equals(id));
+                    model.addAttribute("alreadyApplied", alreadyApplied);
+                    
+                    // Check if already saved
+                    List<JobSeekerSave> savedJobs = jobSeekerSaveService.getSavedJobsByJobSeekerId(profile.get().getUserAccountId());
+                    boolean alreadySaved = savedJobs.stream()
+                        .anyMatch(save -> save.getJob().getJobPostId().equals(id));
+                    model.addAttribute("alreadySaved", alreadySaved);
+                    
+                    model.addAttribute("applyJob", new JobSeekerApply());
+                }
+            }
         }
-        return "job-detail";
+        return "job-details";
     }
     
     @PostMapping("/apply/{id}")
@@ -274,15 +330,49 @@ public class JobSeekerProfileController {
     @GetMapping("/applications")
     public String myApplications(Authentication authentication, Model model) {
         String email = authentication.getName();
+        model.addAttribute("userEmail", email);
         Optional<Users> user = usersService.findByEmail(email);
         
         if (user.isPresent()) {
             Optional<JobSeekerProfile> jobSeekerProfile = jobSeekerProfileService.getJobSeekerProfileById(user.get().getUserId());
             if (jobSeekerProfile.isPresent()) {
                 model.addAttribute("applications", jobSeekerApplyService.getApplicationsByJobSeekerId(jobSeekerProfile.get().getUserAccountId()));
+                
+                // Add profile photo to model
+                if (jobSeekerProfile.get().getProfilePhoto() != null) {
+                    model.addAttribute("profilePhoto", jobSeekerProfile.get().getProfilePhoto());
+                }
             }
         }
         
         return "jobseeker-applications";
+    }
+    
+    @GetMapping("/saved-jobs")
+    public String mySavedJobs(Authentication authentication, Model model) {
+        String email = authentication.getName();
+        model.addAttribute("userEmail", email);
+        Optional<Users> user = usersService.findByEmail(email);
+        
+        if (user.isPresent()) {
+            Optional<JobSeekerProfile> jobSeekerProfile = jobSeekerProfileService.getJobSeekerProfileById(user.get().getUserId());
+            if (jobSeekerProfile.isPresent()) {
+                model.addAttribute("savedJobs", jobSeekerSaveService.getSavedJobsByJobSeekerId(jobSeekerProfile.get().getUserAccountId()));
+                model.addAttribute("applications", jobSeekerApplyService.getApplicationsByJobSeekerId(jobSeekerProfile.get().getUserAccountId()));
+                
+                // Add profile photo to model
+                if (jobSeekerProfile.get().getProfilePhoto() != null) {
+                    model.addAttribute("profilePhoto", jobSeekerProfile.get().getProfilePhoto());
+                }
+            }
+        }
+        
+        return "jobseeker-saved-jobs";
+    }
+    
+    @PostMapping("/saved-jobs/delete/{id}")
+    public String deleteSavedJob(@PathVariable Integer id) {
+        jobSeekerSaveService.deleteSavedJob(id);
+        return "redirect:/jobseeker/saved-jobs?unsaved=true";
     }
 }

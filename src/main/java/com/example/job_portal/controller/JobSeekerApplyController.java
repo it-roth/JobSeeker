@@ -33,6 +33,21 @@ public class JobSeekerApplyController {
     @Autowired
     private UsersService usersService;
     
+    @GetMapping("/job-details-apply/{id}")
+    public String display(@PathVariable("id") int id, Model model) {
+        JobPostActivity jobDetails = jobPostActivityService.getJobPostById(id)
+            .orElseThrow(() -> new RuntimeException("Job not found"));
+        
+        model.addAttribute("jobDetails", jobDetails);
+        model.addAttribute("user", usersService.getCurrentUserProfile());
+        
+        // Get list of candidates who applied (for recruiter view)
+        List<JobSeekerApply> applyList = jobSeekerApplyService.getApplicationsByJobId(id);
+        model.addAttribute("applyList", applyList);
+        
+        return "job-details";
+    }
+    
     @PostMapping("/{jobId}")
     public String applyForJob(@PathVariable Integer jobId, 
                               @RequestParam(required = false) String coverLetter,
@@ -53,7 +68,7 @@ public class JobSeekerApplyController {
             }
         }
         
-        return "redirect:/job-post/" + jobId + "?applied=true";
+        return "redirect:/jobseeker/jobs/" + jobId + "?applied=true";
     }
     
     @GetMapping("/my-applications")

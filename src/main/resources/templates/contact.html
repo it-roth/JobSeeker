@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - JobSeek</title>
+    <link rel="icon" type="image/png" th:href="@{/img/Logo.png}" href="/img/Logo.png">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/about.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body class="home-page-new">
+    <!-- Navbar -->
+    <nav class="navbar-modern">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="/" class="brand-logo">
+                    <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek logo" class="brand-logo-img">
+                </a>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-links" id="navLinks">
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                </div>
+                <div class="nav-buttons" id="navButtons">
+                    <a href="/login" class="btn-nav btn-login">Sign In</a>
+                    <a href="/register" class="btn-nav btn-signup">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="about-hero">
+        <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&q=80" alt="Contact JobSeek" class="about-hero-bg">
+        <div class="about-hero-overlay">
+            <div class="container">
+                <div class="about-hero-content">
+                    <h1>Contact</h1>
+                    <h2>US.</h2>
+                    <p class="about-tagline">Get in touch with our team - we're here to help you succeed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info Cards -->
+    <section class="about-section" style="background: #f4f4f4;">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Get In Touch</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">We'd love to hear from you</p>
+            <div class="purpose-grid">
+                <div class="purpose-card" data-aos="fade-up" data-aos-delay="150">
+                    <div class="purpose-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Office Location</h3>
+                    <p>St. 562, Sangkat Boeung kak I<br>Khan Toul Kork, Phnom Penh, Cambodia</p>
+                </div>
+                <div class="purpose-card" data-aos="fade-up" data-aos-delay="250">
+                    <div class="purpose-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Phone Number</h3>
+                    <p>+855 (0)10 123 456<br>Mon-Fri 8am-5pm (Phnom Penh Time)</p>
+                </div>
+                <div class="purpose-card" data-aos="fade-up" data-aos-delay="350">
+                    <div class="purpose-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Address</h3>
+                    <p>support@jobseek.com<br>info@jobseek.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section" style="padding: 4rem 0; background: #f4f4f4;">
+        <div class="container">
+            <div class="contact-form-grid">
+                <div class="form-left" data-aos="fade-right">
+                    <h2>Send Us a Message</h2>
+                    <p>Fill out the form and we'll get back to you within 24 hours</p>
+                    
+                    <div class="contact-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Quick Response Time</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Expert Support Team</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>24/7 Email Support</span>
+                        </div>
+                    </div>
+
+                    <div class="social-links" style="margin-top: 2rem;">
+                        <h3>Follow Us</h3>
+                        <div class="social-icons-contact">
+                            <a href="#" class="social-icon-contact"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon-contact"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon-contact"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-icon-contact"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-right" data-aos="fade-left">
+                    <form class="contact-form-modern">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="Leng Saroth">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="lengsaroth@gmail.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+855 (0)10 123 456">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="support">Technical Support</option>
+                                <option value="job-seeker">Job Seeker Help</option>
+                                <option value="employer">Employer Services</option>
+                                <option value="partnership">Partnership Opportunities</option>
+                                <option value="feedback">Feedback</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Tell us how we can help you..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit-modern">Send Message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="about-section" style="background: #f4f4f4;">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Frequently Asked Questions</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Quick answers to common questions</p>
+            
+            <div class="faq-grid-modern">
+                <div class="faq-item-modern" data-aos="fade-up" data-aos-delay="150">
+                    <div class="faq-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>How do I create an account?</h3>
+                    <p>Click the "Sign Up" button and choose whether you're a job seeker or employer. Fill out the required information and you're ready to go!</p>
+                </div>
+
+                <div class="faq-item-modern" data-aos="fade-up" data-aos-delay="200">
+                    <div class="faq-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>Is JobSeek free to use?</h3>
+                    <p>Yes! Job seekers can browse and apply to jobs completely free. Employers have free and premium posting options available.</p>
+                </div>
+
+                <div class="faq-item-modern" data-aos="fade-up" data-aos-delay="250">
+                    <div class="faq-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>How do I apply for a job?</h3>
+                    <p>Create an account, complete your profile, browse available jobs, and click "Apply Now" on any position that interests you.</p>
+                </div>
+
+                <div class="faq-item-modern" data-aos="fade-up" data-aos-delay="300">
+                    <div class="faq-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>Can I edit my application?</h3>
+                    <p>You can update your profile anytime, but submitted applications cannot be edited. Make sure to review before submitting!</p>
+                </div>
+
+                <div class="faq-item-modern" data-aos="fade-up" data-aos-delay="350">
+                    <div class="faq-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>How long do job postings stay active?</h3>
+                    <p>Job postings remain active for 30 days by default. Employers can renew or remove postings at any time.</p>
+                </div>
+
+                <div class="faq-item-modern" data-aos="fade-up" data-aos-delay="400">
+                    <div class="faq-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>How do I contact an employer?</h3>
+                    <p>Submit your application through our platform. If selected, the employer will contact you directly using the information in your profile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-modern">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img th:src="@{/img/jobseeklogo.png}" src="/img/jobseeklogo.png" alt="JobSeek Logo" class="footer-logo">
+                    <p class="footer-description">JobSeek is created by BELTEI Student for Job Matching Service Specialized in IT</p>
+                </div>
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h3>QUICK LINE</h3>
+                        <ul>
+                            <li><a href="/login">Find Jobs</a></li>
+                            <li><a href="/register">Find Freelancers</a></li>
+                            <li><a href="/register">Post a Job</a></li>
+                            <li><a href="/login">Dashboard</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>SUPPORT & LEGAL</h3>
+                        <ul>
+                            <li><a href="/contact">Chat Bot Help</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Policy Privacy</a></li>
+                            <li><a href="#">Term of Service</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>OUR SPONSORS</h3>
+                        <div class="footer-sponsor">
+                            <img th:src="@{/img/BIU2.png}" src="/img/BIU2.png" alt="ISTAD" class="sponsor-logo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="#" class="privacy-link">Privacy Policy</a>
+                <p>&copy; 2026 JobSeek Inc. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script th:src="@{/js/main.js}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+    </script>
+</body>
+</html>

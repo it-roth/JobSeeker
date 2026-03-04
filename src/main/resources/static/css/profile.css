@@ -32,6 +32,35 @@ body {
     box-shadow: 0 6px 24px rgba(13,38,76,0.06);
 }
 
+/* Back link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #0a2473;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #f3f4f6;
+    color: #1e3a8a;
+}
+
+.back-link i {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+}
+
+.back-link:hover i {
+    transform: translateX(-3px);
+}
+
 /* Profile title section */
 .profile-title { 
     text-align: center; 
